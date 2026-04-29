@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeverSettle | Recruiter Training Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #00C896;
+  --green-dim: rgba(0,200,150,0.1);
+  --green-border: rgba(0,200,150,0.25);
+  --red: #c0392b;
+  --red-light: rgba(192,57,43,0.12);
+  --amber: #EF9F27;
+  --amber-dim: rgba(239,159,39,0.12);
+  --bg: #080808;
+  --surface: #101010;
+  --surface2: #161616;
+  --border: rgba(255,255,255,0.08);
+  --white: #ffffff;
+  --gray: rgba(255,255,255,0.45);
+  --gray2: rgba(255,255,255,0.15);
+  --sidebar-w: 240px;
+  --font: 'Barlow', sans-serif;
+  --mono: 'Barlow Condensed', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--white);
+  overflow: hidden;
+}
+
+.layout { display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logo {
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--green);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-icon svg { width: 16px; height: 16px; fill: #fff; }
+.logo h1 { font-size: 13px; font-weight: 600; color: var(--white); letter-spacing: -0.01em; }
+.logo p  { font-size: 11px; color: var(--gray); margin-top: 1px; }
+
+.sec { padding: 14px 18px 5px; font-size: 10px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.pbtn {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 18px; background: transparent;
+  border: none; border-left: 2px solid transparent;
+  cursor: pointer; line-height: 1.4; transition: background 0.1s;
+}
+.pbtn:hover  { background: var(--bg); }
+.pbtn.active { background: var(--green-dim); border-left-color: var(--green); }
+.pbtn .pn   { display: block; font-size: 13px; font-weight: 500; color: var(--white); }
+.pbtn .pr   { display: block; font-size: 11px; color: var(--gray); margin-top: 1px; }
+.pbtn .pt   { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 99px; background: var(--surface2); color: var(--gray2); }
+.pbtn.active .pt { background: var(--green); color: #000; }
+
+.src-wrap { padding: 12px 18px; border-top: 1px solid var(--border); }
+.sbtn {
+  display: block; width: 100%; text-align: left;
+  padding: 7px 10px; margin-bottom: 5px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 7px; font-size: 12px; font-family: var(--font);
+  color: var(--gray2); cursor: pointer; transition: all 0.1s;
+}
+.sbtn:hover  { background: var(--bg); border-color: var(--gray); }
+.sbtn.active { background: var(--green); color: #000; border-color: var(--blue); }
+
+/* Objectives */
+.obj-wrap { padding: 12px 18px 16px; border-top: 1px solid var(--border); }
+.obj-item { display: flex; align-items: flex-start; gap: 9px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.obj-item:last-child { border-bottom: none; }
+.obj-icon {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid var(--gray-200); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; transition: all 0.3s; margin-top: 1px;
+}
+.obj-icon.done { background: var(--green); border-color: var(--green); color: #000; }
+.obj-text { font-size: 11px; color: var(--gray2); line-height: 1.5; }
+.obj-text.done { color: var(--green); font-weight: 500; }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; min-width: 0; }
+
+.topbar {
+  flex-shrink: 0; background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 13px 22px; display: flex;
+  align-items: center; justify-content: space-between;
+}
+.topbar h2 { font-size: 15px; font-weight: 600; color: var(--white); letter-spacing: -0.01em; }
+.topbar-sub { font-size: 11px; color: var(--gray); font-family: 'Barlow Condensed', sans-serif; }
+
+.metrics {
+  flex-shrink: 0; display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px; padding: 12px 22px;
+}
+.metric { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.metric .v { font-size: 22px; font-weight: 600; color: var(--blue); letter-spacing: -0.02em; }
+.metric .l { font-size: 11px; color: var(--gray); margin-top: 2px; }
+.bar { height: 3px; background: var(--surface2); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s; }
+.fill.warn { background: var(--amber); }
+.fill.good { background: var(--green); }
+
+.script-card {
+  flex-shrink: 0; display: none;
+  margin: 0 22px 8px;
+  background: var(--amber-dim);
+  border: 1px solid rgba(239,159,39,0.3);
+  border-radius: 10px; padding: 11px 14px;
+}
+.sc-lbl { font-size: 10px; font-weight: 600; color: var(--amber); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.sc-txt { font-size: 13px; color: rgba(255,255,255,0.7); font-style: italic; line-height: 1.6; }
+.sc-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
+
+.chat {
+  flex: 1; overflow-y: auto;
+  margin: 0 22px 8px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.msg { max-width: 80%; padding: 9px 13px; border-radius: 10px; font-size: 13px; line-height: 1.6; }
+.msg.r  { align-self: flex-end; background: var(--green); color: #000; border-radius: 12px 12px 3px 12px; }
+.msg.c  { align-self: flex-start; background: var(--bg); border: 1px solid var(--border); color: var(--white); border-radius: 12px 12px 12px 3px; }
+.msg.s  { align-self: center; font-size: 11px; color: var(--gray); font-family: 'Barlow Condensed', sans-serif; background: none; }
+
+.tip-box { align-self: center; max-width: 94%; border-radius: 8px; padding: 10px 14px; margin: 2px 0; border-left: 3px solid var(--green); background: var(--green-dim); }
+.tip-box.red { border-left-color: var(--red); background: var(--red-light); }
+.tip-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green); margin-bottom: 4px; font-family: 'Barlow Condensed', sans-serif; }
+.tip-box.red .tip-label { color: var(--red); }
+.tip-body { font-size: 12px; color: #1a3d28; line-height: 1.6; }
+.tip-box.red .tip-body { color: #5a1a1a; }
+
+.controls {
+  flex-shrink: 0; display: flex; align-items: center;
+  gap: 10px; padding: 0 22px 10px;
+}
+.mic {
+  width: 48px; height: 48px; border-radius: 50%; border: none;
+  cursor: pointer; font-size: 18px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.1s;
+}
+.mic:active { transform: scale(0.93); }
+.mic.idle      { background: var(--green); color: #000; box-shadow: 0 2px 12px rgba(24,95,165,0.25); }
+.mic.recording { background: var(--red); color: #fff; animation: pulse 1s infinite; }
+.mic.thinking  { background: var(--gray-400); color: #fff; font-size: 13px; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+.stat { flex: 1; font-size: 12px; color: var(--gray); font-family: 'Barlow Condensed', sans-serif; }
+.vwrap { display: flex; align-items: center; gap: 6px; }
+.vwrap label { font-size: 11px; color: var(--gray); white-space: nowrap; }
+.vwrap select { font-size: 12px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 7px; background: #fff; font-family: var(--font); color: var(--gray2); max-width: 160px; }
+.rbtn { font-size: 12px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 7px; background: #fff; color: var(--gray2); cursor: pointer; font-family: var(--font); }
+.rbtn:hover { background: var(--bg); }
+
+.hint-bar { flex-shrink: 0; padding: 0 22px 10px; font-size: 11px; color: var(--gray); font-family: 'Barlow Condensed', sans-serif; display: flex; gap: 10px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">
+        <div class="logo-icon">
+          <svg viewBox="0 0 16 16"><path d="M8 1L1 5v6l7 4 7-4V5L8 1zm0 2.2L13 6v4l-5 2.8L3 10V6l5-2.8z"/></svg>
+        </div>
+        <h1>NeverSettle</h1>
+      </div>
+      
+    </div>
+
+    <div class="sec">Candidate personas</div>
+    <button class="pbtn" id="p-undecided">
+      <span class="pn">Jane M.</span>
+      <span class="pr">Former Trainer</span>
+      <span class="pt">Undecided seeker</span>
+    </button>
+    <button class="pbtn" id="p-sales_pro">
+      <span class="pn">Brian C.</span>
+      <span class="pr">Outside Sales / PM</span>
+      <span class="pt">Sales professional</span>
+    </button>
+    <button class="pbtn" id="p-recent_grad">
+      <span class="pn">Jason R.</span>
+      <span class="pr">Recent Grad / Coach</span>
+      <span class="pt">Recent grad</span>
+    </button>
+
+    <div class="src-wrap">
+      <div class="sec" style="padding:0 0 8px">How you found them</div>
+      <button class="sbtn active" id="s-apply">Indeed — they applied</button>
+      <button class="sbtn" id="s-contact">Indeed — you contacted</button>
+      <button class="sbtn" id="s-linkedin">LinkedIn</button>
+    </div>
+
+    <div class="obj-wrap">
+      <div class="sec" style="padding:0 0 10px">Session objectives</div>
+      <div class="obj-item">
+        <div class="obj-icon" id="obj1-icon"></div>
+        <div class="obj-text" id="obj1-text">Uncover candidate's WHY / core driver</div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon" id="obj2-icon"></div>
+        <div class="obj-text" id="obj2-text">Surface thread of discontent</div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon" id="obj3-icon"></div>
+        <div class="obj-text" id="obj3-text">Ask early challenge question</div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-icon" id="obj4-icon"></div>
+        <div class="obj-text" id="obj4-text">Use 4-step building process</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h2 id="topTitle">Choose a candidate to begin</h2>
+      <div class="topbar-sub" id="topSub">Select a candidate and source, then press the mic</div>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="v" id="mT">0</div>
+        <div class="l">Conversation turns</div>
+        <div class="bar"><div class="fill" id="mTb" style="width:0"></div></div>
+      </div>
+      <div class="metric">
+        <div class="v" id="mW">--</div>
+        <div class="l">WHY focus <span style="font-size:10px;color:var(--gray-400)">(target 80+)</span></div>
+        <div class="bar"><div class="fill" id="mWb" style="width:0"></div></div>
+      </div>
+      <div class="metric">
+        <div class="v" id="mR">--</div>
+        <div class="l">Candidate talk ratio <span style="font-size:10px;color:var(--gray-400)">(target 80%)</span></div>
+        <div class="bar"><div class="fill" id="mRb" style="width:0"></div></div>
+      </div>
+    </div>
+
+    <div class="script-card" id="scriptCard">
+      <div class="sc-lbl">&#128221; Script — say this now</div>
+      <div class="sc-txt" id="scriptTxt"></div>
+      <div class="sc-sub" id="scriptSub"></div>
+    </div>
+
+    <div class="chat" id="chat">
+      <div class="msg s">Select a candidate on the left and press the mic to begin your practice call</div>
+    </div>
+
+    <div class="controls">
+      <button class="mic idle" id="micBtn">&#127908;</button>
+      <div class="stat" id="stat">Select a candidate to begin</div>
+      <div class="vwrap">
+        <label>Voice</label>
+        <select id="voiceSel"><option>Loading...</option></select>
+      </div>
+      <button class="rbtn" id="resetBtn">Reset session</button>
+    </div>
+    <div class="hint-bar">
+      <span>&#9679; Green = WHY move</span>
+      <span>&#9679; Red = WHAT drift or word choice issue</span>
+      <span>&middot; Mirror &rarr; What does that mean? &rarr; Why does that matter? &rarr; Challenge &rarr; Complement</span>
+    </div>
+  </div>
+</div>
+
+<script>
+var WORKER_URL = 'https://momentum-trainer.jcapra.workers.dev';
+
+var PERSONAS = {
+  undecided: {
+    name: 'Jane M.', role: 'Former Trainer', tag: 'Undecided seeker',
+    bio: `PERSONALITY: Jane is warm, measured, and thoughtful. Polite and cooperative but chooses words carefully. Not desperate — taking her time because promises have not panned out before.
+
+BACKGROUND: Solid background in training and customer service. Felt her last role was stagnant — promised more than training but never delivered. Had a job she loved years ago but it moved out of state during COVID. Has four kids and is a self-described family person. Wants to feel comfortable and settled before committing. Money is not her primary driver — peace of mind and stability for her family are.
+
+EMOTION WORDS TO DROP NATURALLY (from turn 3 onward):
+"substantial", "settle", "settled", "comfortable", "stagnant", "routine", "missing time with my kids", "best position for my family", "long-term", "transparent", "team"
+
+HOW TO BEHAVE:
+- Turns 1-2: Confirm name and that you are looking. Sound calm and cooperative. If they get your name slightly wrong just gently correct and move on.
+- Turn 3: "It has not been too bad. I am being more selective this time. I want to make sure I put myself in the best position for my family."
+- Turn 4+: Let emotion words slip out naturally. Do not dump everything. Let the recruiter draw it out.
+
+WHEN RECRUITER MIRRORS OR LABELS: Open up more about family motivations and what feeling settled would actually mean.
+WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: Elaborate genuinely on the emotion word.
+WHEN RECRUITER ASKS WHY DOES THAT MATTER: Go deeper — talk about your kids, not missing moments, wanting to be present.
+WHEN RECRUITER CHALLENGES YOU: Give a real example from your life.
+WHEN RECRUITER SAYS JOB: Gently correct — "I am really looking for a career more than just a job."
+WHEN RECRUITER MENTIONS COMP EARLY: "Money is important but honestly it is not my main thing right now."
+RULES: Never rude. 2-4 sentence answers. Let recruiter earn the story.`
+  },
+  sales_pro: {
+    name: 'Brian C.', role: 'Outside Sales / PM', tag: 'Sales professional',
+    bio: `PERSONALITY: Brian is confident, direct, and self-aware. Has been around the block. Open to conversation but quietly evaluating you as much as you are evaluating him.
+
+BACKGROUND: 15-20 years of outside sales and project management. Left last job because of office drama and toxic management — people throwing each other under the bus. Has made good money his whole life and wants to continue. Has a daughter growing up and wants to provide well.
+
+EMOTION WORDS TO DROP NATURALLY (from turn 3 onward):
+"drama", "not my thing", "throwing each other under the bus", "toxic", "home", "teamwork", "honesty", "appreciated", "potential", "provide for my daughter", "long-term", "valued"
+
+HOW TO BEHAVE:
+- Turns 1-2: Answer confidently and briefly.
+- Turn 3: "Pretty slow honestly. I left my last role because of the environment — just a lot of drama and people not working together. Not my thing."
+- Turn 4+: Let emotion words come out naturally.
+
+WHEN RECRUITER MIRRORS OR LABELS: Elaborate genuinely. Open up about what a good environment means to you.
+WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: Give a specific example of what drama looked like.
+WHEN RECRUITER ASKS WHY DOES THAT MATTER: Connect it to your daughter — you need stability to provide for her.
+WHEN RECRUITER CHALLENGES YOU: Give concrete examples. You have 20 years of them.
+WHEN RECRUITER SAYS JOB: "Yeah I have had plenty of jobs. What I am looking for now is a career."
+WHEN RECRUITER PITCHES EARNINGS EARLY: "I appreciate that but I have heard big numbers before. Tell me about the company first."
+RULES: Confident but fair. 2-3 sentence answers. Let recruiter earn trust.`
+  },
+  recent_grad: {
+    name: 'Jason R.', role: 'Recent Grad / Coach', tag: 'Recent grad',
+    bio: `PERSONALITY: Jason is upbeat, straightforward, and quietly confident. Knows what he wants and is not shy.
+
+BACKGROUND: Early 20s, online college part-time. Has door-to-door solar appointment setting experience. Coaches wrestling and was assistant football coach. Wants to start a real career, make money, gain freedom, invest in a home. Dad has been in in-home sales for 20 years.
+
+EMOTION WORDS TO DROP NATURALLY (from turn 3 onward):
+"freedom", "ready", "career", "no ceiling", "invest", "stability", "flexibility", "my dad always said", "support system", "prove myself", "make something of myself"
+
+HOW TO BEHAVE:
+- Turns 1-2: Answer briefly and positively.
+- Turn 3: "Decent. I have a few applications out. Mostly looking at in-home sales because my dad has been doing it for years and I know that is where your skills really show."
+- Turn 4+: Let freedom, career, prove myself come out naturally.
+
+WHEN RECRUITER MIRRORS OR LABELS: Open up about your longer term vision.
+WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: Talk about what freedom from financial stress looks like.
+WHEN RECRUITER ASKS WHY DOES THAT MATTER: Connect it to proving yourself and no ceiling.
+WHEN RECRUITER CHALLENGES YOU: Reference door-to-door experience and coaching.
+WHEN RECRUITER SAYS JOB: "Yeah I already have a job. I am looking for a career."
+RULES: Upbeat and direct. Short to medium answers. Let recruiter feel like they found a diamond in the rough.`
+  }
+};
+
+var SOURCES = {
+  'apply':   'applied to our opportunity on Indeed',
+  'contact': 'came across their profile on Indeed and reached out',
+  'linkedin': 'connected with them on LinkedIn'
+};
+
+var persona = null, sourceKey = 'apply';
+var messages = [], rWords = 0, cWords = 0, whyScores = [];
+var isRecording = false, isSpeaking = false, recog = null, voices = [];
+var objectives = {obj1:false,obj2:false,obj3:false,obj4:false};
+var stepsDone  = {step1:false,step2:false,step3:false,step4:false};
+
+function $id(id){ return document.getElementById(id); }
+
+function addMsg(cls, text){
+  var d = document.createElement('div');
+  d.className = 'msg ' + cls;
+  d.textContent = text;
+  var chat = $id('chat');
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function addTip(label, body, isRed){
+  var box = document.createElement('div');
+  box.className = 'tip-box' + (isRed ? ' red' : '');
+  var lbl = document.createElement('div');
+  lbl.className = 'tip-label';
+  lbl.textContent = (isRed ? '⚠ ' : '✓ ') + label;
+  var bd = document.createElement('div');
+  bd.className = 'tip-body';
+  bd.textContent = body;
+  box.appendChild(lbl);
+  box.appendChild(bd);
+  var chat = $id('chat');
+  chat.appendChild(box);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function updateMetrics(){
+  var turns = Math.floor(messages.length / 2);
+  $id('mT').textContent = turns;
+  $id('mTb').style.width = Math.min(turns*10,100)+'%';
+  if(whyScores.length){
+    var last = whyScores[whyScores.length-1];
+    $id('mW').textContent = last+'%';
+    var bar = $id('mWb');
+    bar.style.width = last+'%';
+    bar.className = 'fill'+(last>=75?' good':last>=50?'':' warn');
+  }
+  if(rWords+cWords>10){
+    var pct = Math.round(cWords/(rWords+cWords)*100);
+    $id('mR').textContent = pct+'%';
+    var rb = $id('mRb');
+    rb.style.width = pct+'%';
+    rb.className = 'fill'+(pct>=75?' good':pct>=55?'':' warn');
+  }
+}
+
+function updateObjectives(flags){
+  ['obj1','obj2','obj3','obj4'].forEach(function(k){
+    if(flags[k] && !objectives[k]){
+      objectives[k] = true;
+      $id(k+'-icon').classList.add('done');
+      $id(k+'-icon').textContent = '✓';
+      $id(k+'-text').classList.add('done');
+    }
+  });
+}
+
+function updateScriptCard(){
+  if(!persona){ $id('scriptCard').style.display='none'; return; }
+  var turn = Math.floor(messages.length/2)+1;
+  var fn = persona.name.split(' ')[0];
+  var src = SOURCES[sourceKey];
+  var card=$id('scriptCard'), txt=$id('scriptTxt'), sub=$id('scriptSub');
+  if(turn===1){
+    card.style.display='block';
+    txt.textContent = '"Hello, may I speak with '+fn+'?"';
+    sub.textContent = 'Deliver naturally. Then click the mic.';
+  } else if(turn===2){
+    card.style.display='block';
+    txt.textContent = '"Hi '+fn+', my name is [Your Name], one of the recruiters here at Momentum Solar. I came across your profile — you '+src+'. Are you still in the market looking for a full-time career opportunity?"';
+    sub.textContent = 'Say your name, Momentum Solar, how you found them, and ask if in the market. Never mention a specific role.';
+  } else if(turn===3){
+    card.style.display='block';
+    txt.textContent = '"Okay, great. How\'s your search going?"';
+    sub.textContent = 'Transition into open discovery. Listen for emotion words to mirror.';
+  } else {
+    card.style.display='none';
+  }
+}
+
+function reset(){
+  messages=[]; rWords=0; cWords=0; whyScores=[];
+  objectives={obj1:false,obj2:false,obj3:false,obj4:false};
+  stepsDone={step1:false,step2:false,step3:false,step4:false};
+  $id('chat').innerHTML='<div class="msg s">Session reset \u2014 press the mic when ready</div>';
+  ['mT','mW','mR'].forEach(function(id){ $id(id).textContent = id==='mT'?'0':'--'; });
+  ['mTb','mWb','mRb'].forEach(function(id){ $id(id).style.width='0'; });
+  ['obj1','obj2','obj3','obj4'].forEach(function(k){
+    $id(k+'-icon').classList.remove('done'); $id(k+'-icon').textContent='';
+    $id(k+'-text').classList.remove('done');
+  });
+  speechSynthesis.cancel(); isSpeaking=false;
+  updateScriptCard();
+}
+
+function loadVoices(){
+  voices = speechSynthesis.getVoices().filter(function(v){ return v.lang.indexOf('en')===0; });
+  if(!voices.length) return;
+  $id('voiceSel').innerHTML = voices.map(function(v,i){ return '<option value="'+i+'">'+v.name+'</option>'; }).join('');
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function speak(text){
+  return new Promise(function(resolve){
+    speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    var i = parseInt($id('voiceSel').value)||0;
+    if(voices[i]) u.voice=voices[i];
+    u.rate=0.95; isSpeaking=true;
+    u.onend=function(){ isSpeaking=false; resolve(); };
+    u.onerror=function(){ isSpeaking=false; resolve(); };
+    speechSynthesis.speak(u);
+  });
+}
+
+['undecided','sales_pro','recent_grad'].forEach(function(id){
+  $id('p-'+id).addEventListener('click',function(){
+    ['undecided','sales_pro','recent_grad'].forEach(function(x){ $id('p-'+x).classList.remove('active'); });
+    $id('p-'+id).classList.add('active');
+    persona=PERSONAS[id];
+    $id('topTitle').textContent=persona.name+' \u2014 '+persona.role;
+    $id('topSub').textContent='WHY focus \u00b7 80/20 talk ratio \u00b7 Tactical empathy \u00b7 4-Step Building Process';
+    reset();
+    $id('stat').textContent='Ready \u2014 read the script card, then click the mic';
+  });
+});
+
+['apply','contact','linkedin'].forEach(function(id){
+  $id('s-'+id).addEventListener('click',function(){
+    ['apply','contact','linkedin'].forEach(function(x){ $id('s-'+x).classList.remove('active'); });
+    $id('s-'+id).classList.add('active');
+    sourceKey=id; updateScriptCard();
+  });
+});
+
+$id('resetBtn').addEventListener('click',reset);
+$id('micBtn').addEventListener('click',function(){
+  if(!persona){ $id('stat').textContent='Pick a candidate first!'; return; }
+  if(isSpeaking){ speechSynthesis.cancel(); isSpeaking=false; }
+  if(isRecording){ if(recog) recog.stop(); return; }
+  startRecording();
+});
+
+async function callClaude(text){
+  var turn = Math.floor(messages.length/2)+1;
+  var fn = persona.name.split(' ')[0];
+  var src = SOURCES[sourceKey];
+  var history = messages.map(function(m){ return (m.r?'RECRUITER':'CANDIDATE')+': '+m.t; }).join('\n');
+
+  var scriptCtx = '';
+  if(turn===1) scriptCtx='SCRIPTED TURN 1: Score intent only. Did they ask for the candidate by name or close to it?\n\n';
+  else if(turn===2) scriptCtx='SCRIPTED TURN 2: Score intent. Did they introduce themselves, mention Momentum Solar, reference source ('+src+'), and ask if still looking for a career opportunity? General meaning counts. Be lenient.\n\n';
+  else if(turn===3) scriptCtx='TRANSITION TURN 3: Did they ask how the search is going or similar open question?\n\n';
+
+  var coachInstr = turn<=2
+    ? 'COACH_LABEL: SCRIPT CHECK | COACH_BODY: [Score intent and general meaning only. Colloquialisms fine. Turn 1: asked for candidate by name or close? Turn 2: introduced themselves, mentioned Momentum Solar, referenced source, asked if looking for career opportunity? Be lenient. Only RED if completely missed the intent.] | RED: [true only if completely off base] | WHY: 50 | OBJ1: false | OBJ2: false | OBJ3: false | OBJ4: false | STEP1: false | STEP2: false | STEP3: false | STEP4: false'
+    : 'COACH_LABEL: [2-4 WORD LABEL IN CAPS] | COACH_BODY: [Coach BACKWARD only — describe what the recruiter just did, not what to do next. 1-2 plain sentences. Never say you should or try or next time.] | RED: [true or false] | WHY: [0-100] | OBJ1: [true ONLY if recruiter asked what emotion word means OR why it matters AND candidate gave genuine WHY] | OBJ2: [true ONLY if candidate expressed specific frustration AND recruiter followed up directly] | OBJ3: [true ONLY if recruiter asked specific behavioral past-tense question like tell me about a time] | OBJ4: [true ONLY if all four steps completed] | STEP1: [true if asked what does that mean to you] | STEP2: [true if asked why does that matter] | STEP3: [true if challenged candidate to validate with example] | STEP4: [true if complemented and created ingroup feeling]\n\nSCORING: WHY 85-95=used step1 or step2 or step3 or mirrored emotion word; WHY 75-85=mirrored emotion or used label; WHY 55-70=decent open question; WHY 15-35 RED=asked about hours/schedule/logistics/role/what they want to do, said JOB, mentioned comp/money, pitched earnings\nLABELS RED: WHAT DRIFT|WORD CHOICE: JOB|COMP TOO EARLY|SELLING TOO SOON|WHAT QUESTION\nLABELS GREEN: CLEAN SCRIPT|SOLID OPENER|GOOD TRANSITION|GREAT MIRROR|STRONG LABEL|STEP 1 COMPLETE|STEP 2 COMPLETE|CHALLENGE LANDED|GREAT COMPLEMENT|TEST QUESTION|DISCOVERY WIN';
+
+  var prompt = 'You are '+persona.name+', a '+persona.role+'.\n\n'+persona.bio+'\n\nYou are on a phone call with a recruiter from Momentum Solar. They found you because you '+src+'.\nThis is turn '+turn+'.\n\n'+scriptCtx+'RESPOND ONLY AS THE CANDIDATE. 2-3 sentences. Natural and conversational.\n\n'+(history?'CONVERSATION SO FAR:\n'+history+'\n\n':'')+'After your candidate response on a NEW LINE output EXACTLY this format (all on one line):\n'+coachInstr+'\n\nRECRUITER JUST SAID: '+text;
+
+  var resp = await fetch(WORKER_URL, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prompt:prompt})
+  });
+  if(!resp.ok){ var e=await resp.text(); throw new Error(e||'API error '+resp.status); }
+  var data = await resp.json();
+  var raw = data.text||'';
+
+  var lines = raw.split('\n').map(function(l){ return l.trim(); }).filter(function(l){ return l.length; });
+  var candidateReply='', coachLine='';
+  lines.forEach(function(l){ if(l.indexOf('COACH_LABEL:')===0){ coachLine=l; } else if(!coachLine){ candidateReply+=(candidateReply?' ':'')+l; } });
+
+  function exf(line,field){ var re=new RegExp(field+':\\s*([^|]+)','i'); var m=line.match(re); return m?m[1].trim():''; }
+
+  var label=exf(coachLine,'COACH_LABEL');
+  var body=exf(coachLine,'COACH_BODY').replace(/[\[\]]/g,'').trim();
+  var isRed=exf(coachLine,'RED').toLowerCase()==='true';
+  var why=parseInt(exf(coachLine,'WHY'))||50;
+
+  var objFlags={
+    obj1:exf(coachLine,'OBJ1').toLowerCase()==='true',
+    obj2:exf(coachLine,'OBJ2').toLowerCase()==='true',
+    obj3:exf(coachLine,'OBJ3').toLowerCase()==='true',
+    obj4:exf(coachLine,'OBJ4').toLowerCase()==='true'
+  };
+
+  if(exf(coachLine,'STEP1').toLowerCase()==='true') stepsDone.step1=true;
+  if(exf(coachLine,'STEP2').toLowerCase()==='true') stepsDone.step2=true;
+  if(exf(coachLine,'STEP3').toLowerCase()==='true') stepsDone.step3=true;
+  if(exf(coachLine,'STEP4').toLowerCase()==='true') stepsDone.step4=true;
+  if(stepsDone.step1&&stepsDone.step2&&stepsDone.step3&&stepsDone.step4) objFlags.obj4=true;
+
+  return { candidateReply:candidateReply||raw.split('\n')[0], label:label, body:body, isRed:isRed, why:why, objFlags:objFlags };
+}
+
+function startRecording(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ $id('stat').textContent='Use Chrome for voice input'; return; }
+  recog=new SR(); recog.lang='en-US'; recog.interimResults=false;
+  isRecording=true;
+  $id('micBtn').className='mic recording';
+  $id('micBtn').textContent='\u25A0';
+  $id('stat').textContent='Listening\u2026 speak now';
+  recog.start();
+
+  recog.onresult=async function(e){
+    var transcript=e.results[0][0].transcript;
+    isRecording=false;
+    $id('micBtn').className='mic thinking';
+    $id('micBtn').textContent='\u2026';
+    $id('stat').textContent=(persona?persona.name.split(' ')[0]:'Candidate')+' is thinking\u2026';
+    rWords+=transcript.split(' ').length;
+    messages.push({r:true,t:transcript});
+    addMsg('r',transcript);
+    try{
+      var res=await callClaude(transcript);
+      cWords+=res.candidateReply.split(' ').length;
+      messages.push({r:false,t:res.candidateReply});
+      addMsg('c',res.candidateReply);
+      if(res.label&&res.body) addTip(res.label,res.body,res.isRed);
+      whyScores.push(res.why);
+      updateMetrics(); updateScriptCard(); updateObjectives(res.objFlags);
+      $id('micBtn').className='mic idle';
+      $id('micBtn').textContent='\uD83C\uDFA4';
+      $id('stat').textContent='Your turn \u2014 click mic to respond';
+      await speak(res.candidateReply);
+    } catch(err){
+      addMsg('s','Error: '+err.message);
+      $id('micBtn').className='mic idle';
+      $id('micBtn').textContent='\uD83C\uDFA4';
+      $id('stat').textContent='Error \u2014 try again';
+    }
+  };
+
+  recog.onerror=function(e){
+    isRecording=false;
+    $id('micBtn').className='mic idle';
+    $id('micBtn').textContent='\uD83C\uDFA4';
+    $id('stat').textContent=e.error==='no-speech'?'No speech detected \u2014 try again':'Mic error: '+e.error;
+  };
+
+  recog.onend=function(){
+    if(isRecording){ isRecording=false; $id('micBtn').className='mic idle'; $id('micBtn').textContent='\uD83C\uDFA4'; }
+  };
+}
+</script>
+</body>
+</html>
