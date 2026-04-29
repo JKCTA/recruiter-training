@@ -106,19 +106,19 @@ html, body {
 .obj-item:last-child { border-bottom: none; }
 .obj-icon {
   width: 18px; height: 18px; border-radius: 50%;
-  border: 1.5px solid var(--gray-200); flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.2); flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   font-size: 10px; transition: all 0.3s; margin-top: 1px;
 }
 .obj-icon.done { background: var(--green); border-color: var(--green); color: #000; }
-.obj-text { font-size: 11px; color: var(--gray2); line-height: 1.5; }
+.obj-text { font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.5; }
 .obj-text.done { color: var(--green); font-weight: 500; }
 
 /* ── MAIN ── */
 .main { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; min-width: 0; }
 
 .topbar {
-  flex-shrink: 0; background: var(--surface);
+  flex-shrink: 0; background: var(--surface2);
   border-bottom: 1px solid var(--border);
   padding: 13px 22px; display: flex;
   align-items: center; justify-content: space-between;
@@ -131,7 +131,7 @@ html, body {
   grid-template-columns: repeat(3,1fr);
   gap: 10px; padding: 12px 22px;
 }
-.metric { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.metric { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
 .metric .v { font-size: 22px; font-weight: 600; color: var(--green); letter-spacing: -0.02em; }
 .metric .l { font-size: 11px; color: var(--gray); margin-top: 2px; }
 .bar { height: 3px; background: var(--surface2); border-radius: 2px; margin-top: 8px; overflow: hidden; }
