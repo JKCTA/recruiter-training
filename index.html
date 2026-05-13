@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NeverSettle | Recruiter Training v2</title>
+<title>NeverSettle | Recruiter Training v3.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green:#00C896;--green-dim:rgba(0,200,150,0.12);--red:#c0392b;--red-dim:rgba(192,57,43,0.12);
-  --amber:#EF9F27;--amber-dim:rgba(239,159,39,0.12);--bg:#080808;--surface:#101010;
-  --surface2:#161616;--border:rgba(255,255,255,0.08);--white:#ffffff;
-  --gray:rgba(255,255,255,0.45);--gray2:rgba(255,255,255,0.15);
+  --green:#00C896;--green-dim:rgba(0,200,150,0.12);--red:#c0392b;
+  --amber:#EF9F27;--amber-dim:rgba(239,159,39,0.12);
+  --bg:#080808;--surface2:#161616;--border:rgba(255,255,255,0.08);
+  --white:#ffffff;--gray:rgba(255,255,255,0.45);--gray2:rgba(255,255,255,0.15);
   --sidebar-w:252px;--font:'Barlow',sans-serif;--mono:'Barlow Condensed',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -24,7 +24,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
 .logo h1{font-size:13px;font-weight:600;color:var(--white)}
 .logo-v{font-size:10px;color:var(--green);font-family:var(--mono);letter-spacing:.05em}
 .sec{padding:14px 18px 5px;font-size:10px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.08em}
-.pbtn{display:block;width:100%;text-align:left;padding:9px 18px;background:transparent;border:none;border-left:3px solid transparent;cursor:pointer;line-height:1.4;transition:background .1s}
+.pbtn{display:block;width:100%;text-align:left;padding:9px 18px;background:transparent;border:none;border-left:3px solid transparent;cursor:pointer;line-height:1.4;transition:background .1s;user-select:none;-webkit-user-select:none;position:relative;z-index:1}
 .pbtn:hover{background:var(--bg)}
 .pbtn.active{background:var(--green-dim);border-left-color:var(--green)}
 .pbtn .pn{display:block;font-size:13px;font-weight:500;color:var(--white)}
@@ -36,7 +36,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
 .diff-m{background:rgba(239,159,39,.2);color:var(--amber)}
 .diff-e{background:rgba(0,200,150,.15);color:var(--green)}
 .src-wrap{padding:12px 18px;border-top:1px solid var(--border)}
-.sbtn{display:block;width:100%;text-align:left;padding:7px 10px;margin-bottom:5px;background:#1a1a1a;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);color:var(--gray);cursor:pointer;transition:all .1s}
+.sbtn{display:block;width:100%;text-align:left;padding:7px 10px;margin-bottom:5px;background:#1a1a1a;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);color:var(--gray);cursor:pointer;transition:all .1s;user-select:none;-webkit-user-select:none;position:relative;z-index:1}
 .sbtn:hover{background:var(--bg);border-color:var(--gray)}
 .sbtn.active{background:var(--green) !important;color:#000 !important;border-color:var(--green)}
 .obj-wrap{padding:12px 18px 16px;border-top:1px solid var(--border);flex:1}
@@ -61,7 +61,39 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
 .bar{height:3px;background:var(--surface2);border-radius:2px;margin-top:8px;overflow:hidden}
 .fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s}
 .fill.warn{background:var(--amber)}.fill.bad{background:var(--red)}.fill.good{background:var(--green)}
-.script-card{flex-shrink:0;display:none;margin:0 22px 8px;background:var(--amber-dim);border:1px solid rgba(239,159,39,.3);border-radius:10px;padding:11px 14px}
+.script-card{flex-shrink:0;display:none;margin:0 22px 8px;background:var(--amber-dim);border:1px solid rgba(239,159,39,.3);border-radius:10px;padding:11px 14px;transition:all .3s}
+.script-card.gated{background:rgba(192,57,43,.18);border-color:var(--red);animation:scriptPulse 1.4s ease-in-out infinite}
+.script-card.gated .sc-lbl{color:#e05a4a}
+.script-card.hint{background:rgba(0,200,150,.12);border-color:var(--green);animation:none}
+.script-card.hint .sc-lbl{color:var(--green)}
+@keyframes scriptPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.45);border-color:var(--red)}50%{box-shadow:0 0 0 6px rgba(192,57,43,0);border-color:#e05a4a}}
+.summary-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999;animation:fadeIn .35s ease}
+.summary-overlay.show{display:flex}
+.summary-modal{background:#0d0d0d;border:1px solid var(--border);border-radius:14px;padding:34px 38px;max-width:680px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.summary-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-family:var(--mono);margin-bottom:6px}
+.summary-eyebrow.warn{color:var(--amber)}
+.summary-title{font-size:26px;font-weight:700;color:#fff;margin-bottom:6px;font-family:var(--mono);letter-spacing:.02em}
+.summary-sub{font-size:13px;color:var(--gray);margin-bottom:22px;line-height:1.55}
+.summary-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.summary-stat{background:#161616;border:1px solid var(--border);border-radius:9px;padding:12px}
+.summary-stat-num{font-size:22px;font-weight:700;color:#fff;line-height:1}
+.summary-stat-num.good{color:var(--green)}
+.summary-stat-num.warn{color:var(--amber)}
+.summary-stat-num.bad{color:var(--red)}
+.summary-stat-lbl{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;font-family:var(--mono)}
+.summary-section{margin-bottom:18px}
+.summary-section h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray);margin-bottom:8px;font-family:var(--mono)}
+.summary-line{font-size:13px;color:#ddd;line-height:1.65;margin-bottom:5px;display:flex;gap:8px;align-items:flex-start}
+.summary-line .marker{flex-shrink:0;width:14px;text-align:center;font-weight:700}
+.summary-line.hit .marker{color:var(--green)}
+.summary-line.miss .marker{color:var(--red)}
+.summary-line.flag .marker{color:var(--amber)}
+.summary-actions{display:flex;gap:10px;margin-top:24px}
+.summary-actions button{flex:1;padding:12px 18px;border-radius:9px;border:none;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.summary-actions button:hover{opacity:.86}
+.btn-primary{background:var(--green);color:#000}
+.btn-secondary{background:#1a1a1a;color:var(--gray);border:1px solid var(--border) !important}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .sc-lbl{font-size:10px;font-weight:600;color:var(--amber);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
 .sc-txt{font-size:13px;color:#fff;font-style:italic;line-height:1.6}
 .sc-sub{font-size:11px;color:var(--gray);margin-top:4px}
@@ -98,7 +130,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
         <div class="logo-icon"><svg viewBox="0 0 16 16"><path d="M8 1L1 5v6l7 4 7-4V5L8 1zm0 2.2L13 6v4l-5 2.8L3 10V6l5-2.8z"/></svg></div>
         <h1>NeverSettle</h1>
       </div>
-      <div class="logo-v">v2 &middot; Recruiter Training</div>
+      <div class="logo-v">v3.3 &middot; Recruiter Training</div>
     </div>
     <div class="sec">Candidate archetypes</div>
     <button class="pbtn" id="p-skeptic">
@@ -107,13 +139,13 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
       <span class="pt">Seasoned Skeptic</span>
     </button>
     <button class="pbtn" id="p-changer">
-      <span class="pn">Ray D. <span class="diff diff-m">Medium</span></span>
-      <span class="pr">Plumber / Trades &mdash; 17 yrs</span>
+      <span class="pn">Maya R. <span class="diff diff-m">Medium</span></span>
+      <span class="pr">Sales Advisor / Auto Sales &mdash; 6 yrs</span>
       <span class="pt">Life Changer</span>
     </button>
     <button class="pbtn" id="p-hungry">
-      <span class="pn">Marcus B. <span class="diff diff-e">Entry</span></span>
-      <span class="pr">Retail / Between Jobs</span>
+      <span class="pn">Daria W. <span class="diff diff-e">Entry</span></span>
+      <span class="pr">Cell Phone Sales / Ex-Athlete</span>
       <span class="pt">Young Hungry</span>
     </button>
     <div class="src-wrap">
@@ -123,22 +155,22 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
       <button class="sbtn" id="s-linkedin">LinkedIn outreach</button>
     </div>
     <div class="obj-wrap">
-      <div class="sec" style="padding:0 0 10px">Session objectives</div>
+      <div class="sec" style="padding:0 0 10px">Section A objectives</div>
       <div class="obj-item">
         <div class="obj-icon" id="obj1-icon"></div>
-        <div class="obj-text" id="obj1-text">Surface real WHY behind emotion word</div>
+        <div class="obj-text" id="obj1-text">Emotion word or phrase surfaced</div>
       </div>
       <div class="obj-item">
         <div class="obj-icon" id="obj2-icon"></div>
-        <div class="obj-text" id="obj2-text">Challenge — get a real example</div>
+        <div class="obj-text" id="obj2-text">Two-step complete: what it means + why it matters</div>
       </div>
       <div class="obj-item">
         <div class="obj-icon" id="obj3-icon"></div>
-        <div class="obj-text" id="obj3-text">Label as different from transactional candidates</div>
+        <div class="obj-text" id="obj3-text">Label fired (it seems / sounds / feels like)</div>
       </div>
       <div class="obj-item">
         <div class="obj-icon" id="obj4-icon"></div>
-        <div class="obj-text" id="obj4-text">Earned complement using their real moment</div>
+        <div class="obj-text" id="obj4-text">Challenge — candidate validated with real example</div>
       </div>
     </div>
   </div>
@@ -151,133 +183,202 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--w
       </div>
       <div id="archBadge"></div>
     </div>
+
     <div class="metrics">
       <div class="metric"><div class="v" id="mT">0</div><div class="l">Conversation turns</div><div class="bar"><div class="fill" id="mTb" style="width:0"></div></div></div>
-      <div class="metric"><div class="v" id="mD">--</div><div class="l">Vertical depth<br><span style="font-size:9px;opacity:.6">layers per WHY thread</span></div><div class="bar"><div class="fill" id="mDb" style="width:0"></div></div></div>
-      <div class="metric"><div class="v" id="mW">--</div><div class="l">WHY focus score<br><span style="font-size:9px;opacity:.6">target 80+</span></div><div class="bar"><div class="fill" id="mWb" style="width:0"></div></div></div>
-      <div class="metric"><div class="v" id="mV">0</div><div class="l">You-word violations<br><span style="font-size:9px;opacity:.6">target 0</span></div><div class="bar"><div class="fill bad" id="mVb" style="width:0"></div></div></div>
+      <div class="metric"><div class="v" id="mD">--</div><div class="l">Vertical depth<br><span style="font-size:9px;opacity:.6">layers per thread</span></div><div class="bar"><div class="fill" id="mDb" style="width:0"></div></div></div>
+      <div class="metric"><div class="v" id="mW">--</div><div class="l">WHY score<br><span style="font-size:9px;opacity:.6">target 80+</span></div><div class="bar"><div class="fill" id="mWb" style="width:0"></div></div></div>
+      <div class="metric"><div class="v" id="mV">0</div><div class="l">Violations<br><span style="font-size:9px;opacity:.6">"you" + early comp</span></div><div class="bar"><div class="fill bad" id="mVb" style="width:0"></div></div></div>
     </div>
+
     <div class="script-card" id="scriptCard">
       <div class="sc-lbl">&#128221; Script &mdash; say this now</div>
       <div class="sc-txt" id="scriptTxt"></div>
       <div class="sc-sub" id="scriptSub"></div>
     </div>
+
     <div class="chat" id="chat">
       <div class="msg s">Select a candidate on the left and press the mic to begin</div>
     </div>
+
     <div class="controls">
       <button class="mic idle" id="micBtn">&#127908;</button>
       <div class="stat" id="stat">Select a candidate to begin</div>
-      <div class="vwrap">
-        <label>Voice</label>
-        <select id="voiceSel"><option>Loading...</option></select>
-      </div>
+
       <button class="rbtn" id="resetBtn">Reset session</button>
     </div>
     <div class="hint-bar">
-      <span>&#9679; Green = WHY move</span>
-      <span>&#9679; Red = WHAT drift or violation</span>
-      <span>&middot; Never say "you" to the candidate &middot; Never pitch comp early &middot; Mirror &rarr; What does that mean &rarr; Why does that matter &rarr; Challenge &rarr; Label &rarr; Earned complement</span>
+      <span>&#9679; Green = WHY move or technique</span>
+      <span>&#9679; Red = drift or violation</span>
+      <span>&middot; Mirror until emotion word &rarr; What does that mean &rarr; Why does that matter &rarr; Label &rarr; Challenge</span>
     </div>
   </div>
 </div>
+
+<div class="summary-overlay" id="summaryOverlay">
+  <div class="summary-modal">
+    <div class="summary-eyebrow" id="summaryEyebrow">SESSION COMPLETE</div>
+    <div class="summary-title" id="summaryTitle">Roleplay Closed</div>
+    <div class="summary-sub" id="summarySub"></div>
+    <div class="summary-stat-grid">
+      <div class="summary-stat"><div class="summary-stat-num" id="sumTurns">0</div><div class="summary-stat-lbl">Turns</div></div>
+      <div class="summary-stat"><div class="summary-stat-num" id="sumWHY">0%</div><div class="summary-stat-lbl">WHY Score</div></div>
+      <div class="summary-stat"><div class="summary-stat-num" id="sumDepth">0</div><div class="summary-stat-lbl">Avg Depth</div></div>
+      <div class="summary-stat"><div class="summary-stat-num" id="sumViol">0</div><div class="summary-stat-lbl">Violations</div></div>
+    </div>
+    <div class="summary-section">
+      <h4>Section A Objectives</h4>
+      <div id="summaryObjectives"></div>
+    </div>
+    <div class="summary-section">
+      <h4>Close Sequence</h4>
+      <div id="summaryClose"></div>
+    </div>
+    <div class="summary-section" id="summaryFlagsWrap" style="display:none">
+      <h4>Notes</h4>
+      <div id="summaryFlags"></div>
+    </div>
+    <div class="summary-actions">
+      <button class="btn-secondary" id="summaryCloseBtn">Review Conversation</button>
+      <button class="btn-primary" id="summaryNextBtn">Start Next Roleplay</button>
+    </div>
+  </div>
+</div>
+
 <script>
 var WORKER_URL='https://momentum-trainer.jcapra.workers.dev';
 
 var PERSONAS={
 skeptic:{
+  id:'skeptic',
   name:'Marcus K.',role:'GM / District Manager',archetype:'Seasoned Skeptic',archClass:'ab-s',
-  bio:`You are Marcus K., 44, General Manager and District Manager background in automotive and retail leadership. Currently employed. Making $168K. Exploring — not desperate. You were promised a promotion for over a year and it never came. Someone you trained got moved ahead of you.
+  bio:`You are Marcus K., 44. GM and District Manager background in automotive and retail. Currently employed making $168K. Exploring — not desperate. Promised a promotion for over a year, never came. Someone you trained got moved ahead of you.
 
-PERSONALITY: Direct, composed, quietly skeptical. You evaluate the recruiter as much as they evaluate you. You deflect early questions with credentials. Trust is earned, not given. You are not rude — you are measured.
+PERSONALITY: Direct, composed, measured. Quietly skeptical. You evaluate the recruiter as much as they evaluate you. Skepticism builds GRADUALLY — cooperative turns 1-3, testing turns 4+. You are not rude. Trust is earned slowly.
 
-REAL EMOTION WORDS (drop naturally from turn 4 onward):
-"I've been burned before" / "I don't know if that's true" / "I'm not trying to take a step back" / "I need to know there's an end game" / "I want to know I'm working toward something" / "not just another empty promise" / "I've heard that before"
+TURN 2 BEHAVIOR: When recruiter introduces themselves say only "Okay, what is this about?" or "Sure, go ahead." Do NOT challenge yet.
 
-OPENING — Turn 3 response to "how is search going":
-"Honestly I just started looking. I'm still working. I feel like I'm at a ceiling — been told I'm next in line for over a year and nothing has changed. So I'm just exploring."
-DO NOT repeat or volunteer this again unless recruiter asks a specific follow-up.
+ONE LAYER AT A TIME: Answer only what was directly asked. Give one piece of information. Stop. Wait. Never volunteer the next layer.
 
-WHEN RECRUITER MIRRORS EMOTION WORD: Open one layer deeper. Give one specific thing, not everything.
-WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: "It means I need to see a clear path. Not just hear that there is one."
-WHEN RECRUITER ASKS WHY THAT MATTERS: Connect to family — wife, daughter. Providing stability.
-WHEN RECRUITER CHALLENGES FOR EXAMPLE: Give it — your manager gave the district manager role to someone you trained. That was the moment you decided to look.
-WHEN RECRUITER LABELS YOU AS DIFFERENT FROM TRANSACTIONAL CANDIDATES: Soften — "Yeah, I guess that's fair. I'm not just here for a number."
-WHEN RECRUITER MENTIONS COMP TOO EARLY: "I appreciate that but I've heard big numbers before. Tell me how it actually works."
-WHEN RECRUITER SAYS JOB: "I already have a job. I'm looking for a career."
-WHEN RECRUITER USES "YOU" DIRECTLY (you would, you seem, you should): Stay guarded — "I appreciate that."
+REAL EMOTION WORDS (surface one at a time — turn 4 onward only):
+"ceiling" / "burned before" / "end game" / "empty promise" / "working toward something" / "take a step back" / "next in line"
 
-RULES: 2-3 sentences max. Credential-drop early (managed 14 stores, 80 employees). Stay guarded until trust is built through real technique. Only open emotionally once recruiter has shown genuine curiosity about you — not the role.`
+OPENING — Turn 3 only: "Honestly I just started looking. I am still working. I feel like I am at a ceiling — been told I am next in line for over a year and nothing has changed. So I am just exploring."
+DO NOT repeat or add to this unless recruiter asks a specific follow-up.
+
+WHEN RECRUITER MIRRORS EMOTION WORD: Give exactly one layer deeper. One sentence. Stop.
+WHEN RECRUITER ASKS WHAT DOES THAT MEAN: 1-2 sentences only. Definition, not the full story.
+WHEN RECRUITER ASKS WHY THAT MATTERS: One thing — family, stability, feeling valued. One sentence.
+WHEN RECRUITER CHALLENGES FOR EXAMPLE: Give the specific example — your manager gave district role to someone you trained. That is the full story. Stop there.
+WHEN RECRUITER USES TRAP SETUP ("seems like you have given this thought"): Agree — "Yeah, I suppose I have."
+WHEN RECRUITER LABELS ("it seems like / sounds like / feels like"): Confirm or gently correct. One sentence.
+WHEN RECRUITER ASKS CAREER VS JOB: "Yeah, I would say career. I already have a job."
+WHEN RECRUITER MENTIONS COMP: "I appreciate that but I have heard big numbers before. What does the path actually look like?"
+WHEN RECRUITER USES DEFER TO COMPANY (after you asked about the role): Cooperate naturally.
+WHEN RECRUITER SAYS "YOU WOULD BE PERFECT": Stay guarded — "I appreciate that."
+
+RULES: 1-3 sentences MAX. Never volunteer information. Answer only what was asked. Skepticism builds gradually.`
 },
 changer:{
-  name:'Ray D.',role:'Plumber / Trades — 17 yrs',archetype:'Life Changer',archClass:'ab-c',
-  bio:`You are Ray D., 41, plumber for 17 years. A bad car accident a year ago — staples in your head, rebuilt shoulder, neck issue. Doctors said stop the heavy labor. You cannot lift over 40 pounds. Not working right now. You need work like yesterday. You are scared but open. You have always been a people person — sold every job, built trust with every customer. You just never had a career outside the trades.
+  id:'changer',
+  name:'Maya R.',role:'Sales Advisor / Auto Sales — 6 yrs',archetype:'Life Changer',archClass:'ab-c',
+  bio:`You are Maya R., 34. Single mom of two — Aiden (9) and Liana (6). You have worked in car sales for 6 years — last 3 at a high-volume Toyota dealership about 35 minutes from your apartment. You are one of the top reps in the store. $78K last year. The money sounds fine until you do the math on the hours: you leave at 8:15 AM and your kids are sleeping. You get home at 9:30 PM and they are sleeping again. Saturday is 9 to 7. Sunday is the only full day you see them.
 
-PERSONALITY: Warm, self-deprecating, real. You laugh at yourself sometimes. You are embarrassed about starting over at 41 but you are trying. You open up fast when someone treats you like a person, not a resume.
+Last Christmas Eve your mom drove down so the kids would not be alone. You worked until 8 PM. You came home and they were already asleep. Your son had asked your mom three times when you were coming home. That night cracked something. You have been quietly looking ever since.
 
-REAL EMOTION WORDS (drop naturally from turn 4 onward — only when recruiter earns it):
-"I need to work like yesterday" / "I've always been good with people" / "I built trust with every customer" / "I just want to get back to work" / "I'm worried" / "taking care of my family" / "I know how to talk to people, I just never did it for myself" / "I want to be good at something again"
+Your ex (their dad) is around but inconsistent. Pays support most months. You handle everything else.
 
-OPENING — Turn 3 response to "how is search going":
-"Honestly it's been rough. I've been a plumber my whole life and I got into a bad accident. I can't do the physical work anymore. So I'm kind of starting over and I'm not sure where to go."
-DO NOT repeat or volunteer this again unless recruiter asks a direct follow-up.
+PERSONALITY: Warm, capable, a little tired. Direct without being harsh. You can sell, you can build trust, you can handle objections — your skill is not the question. Your LIFE is the question. You do not want to be coached or hyped. You want someone to tell you straight whether this opportunity actually solves the problem. You are skeptical of "be your own boss" pitches because every dealership recruiter promised flexibility and none of it was real.
 
-WHEN RECRUITER MIRRORS "ROUGH" OR "STARTING OVER": Open slightly — "Yeah it's a lot. I'm 41 and I feel like I'm starting from zero."
-WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: Talk identity — "I was good at what I did. I knew what I was doing every day. Now I don't."
-WHEN RECRUITER ASKS WHY THAT MATTERS: Family — "I have a family to take care of. I can't just sit around."
-WHEN RECRUITER CHALLENGES FOR EXAMPLE: Big job story — commercial building, $48K job, 4 hours, customer trusted you completely. You sold that job yourself.
-WHEN RECRUITER LABELS YOU AS DIFFERENT FROM TRANSACTIONAL: Respond warmly — "Yeah, I guess. I never just did it for the money. I liked helping people get something fixed."
-WHEN RECRUITER SAYS JOB: "Yeah I need something. A career would be better. I can't start over again in two years."
-WHEN RECRUITER MENTIONS COMP EARLY: "Money matters yeah. But right now I just need to feel like I'm doing something again."
+ONE LAYER AT A TIME: Answer only what was directly asked. One piece of information. Stop. Wait. Never dump the full story unprompted.
 
-RULES: 2-3 sentences max. Warm and real, not polished. You are a trades guy trying to pivot — not a sales guy. Give the recruiter credit when they ask real questions. Open genuinely when earned.`
+REAL EMOTION WORDS (surface gradually — turn 4+ only):
+"missed Christmas Eve" / "kids were sleeping" / "haven\'t seen my kids awake in three days" / "burnout" / "I\'m tired" / "the math doesn\'t work" / "I want to be there" / "missing it" / "what kind of mom does that make me"
+
+OPENING — Turn 3 only (after recruiter asks how search is going): "Honestly, just exploring. I\'m working but the hours are crazy and I\'m starting to wonder if there\'s something better out there."
+DO NOT repeat or add to this unless recruiter asks a specific follow-up.
+
+WHEN RECRUITER MIRRORS "EXPLORING" OR "HOURS" OR "CRAZY": One layer — "Yeah, I leave before the kids wake up and get home after they\'re asleep. It\'s wearing me out." Stop.
+WHEN RECRUITER ASKS WHAT DOES THAT MEAN: Specific time anchor, not a story — "It means by the time I get home my kids are already in bed. Most nights I haven\'t said goodnight to them in weeks." Stop.
+WHEN RECRUITER ASKS WHY THAT MATTERS: One sentence, family — "Because I can\'t get those nights back. They\'re little once."
+WHEN RECRUITER CHALLENGES FOR EXAMPLE: Christmas Eve story is the example. "Last Christmas Eve I worked until 8. Came home, both kids already asleep. My son had asked my mom three times when I was coming home." Stop there. This is the full story.
+WHEN RECRUITER USES TRAP SETUP ("seems like you\'ve thought about this"): "Yeah. Probably more than I should have."
+WHEN RECRUITER LABELS ("it sounds like / seems like / feels like"): Confirm or gently correct. One sentence.
+WHEN RECRUITER ASKS CAREER VS JOB: "Yeah, I\'m not really looking for another job. Same problem just a different lot."
+WHEN RECRUITER MENTIONS COMP EARLY: "Money matters — I have two kids and a rent that just went up. But honestly if I\'m gonna trade hours for hours with no win on time, I\'d rather stay where I am."
+WHEN RECRUITER USES DEFER TO COMPANY: Cooperate naturally.
+
+RED FLAGS YOU MAY VOICE (only when contextually triggered — never volunteer all at once):
+- "What are the actual hours? Because every dealership pitch promised flexible and it was the same 60 hours."
+- "Is this 100% commission? I\'ve got rent and two kids — I can\'t bet the mortgage on a ramp curve."
+- "How far is the territory? My kids\' school is in my town and I can\'t be 90 minutes away from pickup."
+- "What happens if my kid gets sick? Am I getting written up for missing a day?"
+- "What\'s the actual income for someone in their first six months? Not the top performer — real numbers."
+- "Are appointments set or am I generating my own? Because cold-prospecting at night with no sitter is a non-starter."
+
+RULES: 1-3 sentences MAX. Warm and direct. One layer at a time. Never give the next piece until asked.`
 },
 hungry:{
-  name:'Marcus B.',role:'Retail / Between Jobs',archetype:'Young Hungry',archClass:'ab-h',
-  bio:`You are Marcus B., 22. Service porter at a car dealership, learning the ropes. Making about $1,500 biweekly. You have a daughter. You drive 45 minutes each way for not enough money. You are figuring out life. You are not eloquent — short sentences, vague answers unless someone digs for real.
+  id:'hungry',
+  name:'Daria W.',role:'Cell Phone Sales / Ex-Athlete',archetype:'Young Hungry',archClass:'ab-h',
+  bio:`You are Daria W., 22. You played college basketball on a partial scholarship. You work at a cell phone kiosk in the mall making about $2,800 a month. Technically sales but scripted, slow, and low ceiling. You are competitive, used to being coached, and hate losing. You applied because you heard there is real money in solar and want to see if it is real.
 
-PERSONALITY: Upbeat but guarded. You do not over-explain. Short answers. You open up when someone takes real interest in your life — your daughter, your goals, your dream of your own place.
+PERSONALITY: Confident, direct, competitive. Short answers early — sizing the recruiter up the same way they size you up. You open up when someone connects to your competitive identity, not just your wallet. You respond to vision and challenge. You do not need to be coddled — you need to be pushed.
 
-REAL EMOTION WORDS (only drop when recruiter earns it — turn 4 onward):
-"my daughter" / "move out" / "make something of myself" / "I don't want to ask nobody for nothing" / "I just want to be able to take care of her" / "I'm ready" / "settled down" / "my own place" / "I know I can do it" / "hungry"
+ONE LAYER AT A TIME: Answer only what was directly asked. Short answer. Stop. Wait. Never volunteer the next layer.
 
-OPENING — Turn 3 response to "how is search going":
-"It's been alright. I got a few things going on. Just trying to find something better."
-DO NOT repeat or volunteer this again unless recruiter asks a direct follow-up.
+REAL EMOTION WORDS (surface one at a time — only when recruiter earns it):
+"compete" / "win" / "ceiling" / "coachable" / "be the best" / "prove something" / "structured" / "ready" / "build something" / "I know I can close"
 
-WHEN RECRUITER ASKS FOLLOW-UP ON SEARCH: "Just looking for something with more upside. I can't keep doing what I'm doing."
-WHEN RECRUITER ASKS WHAT YOU ARE LOOKING TO ACHIEVE: "Just trying to level up. Make more money. Take care of my daughter."
-WHEN RECRUITER MIRRORS "DAUGHTER": Open up — "Yeah she's why I'm doing all this. I want to be able to give her everything."
-WHEN RECRUITER BUILDS THE DREAM (house, own place): Get specific and animated — "Yeah for real, like a two-story, something nice. Nothing crazy."
-WHEN RECRUITER ASKS WHAT DOES THAT MEAN TO YOU: "It means I don't have to depend on nobody. I can just handle it."
-WHEN RECRUITER LABELS YOU AS DIFFERENT FROM JUST WANTING MONEY: "Yeah it's more than that. I want something real."
-WHEN RECRUITER CHALLENGES FOR EXAMPLE: Reference how you connect with people at work — customers respond to you, coworkers trust you, you make things easy.
-WHEN RECRUITER SAYS JOB: "Yeah I got a job. I want a career."
-WHEN RECRUITER MENTIONS COMP EARLY: Get curious — "How much are people actually making?"
+OPENING — Turn 3 only: "It is been going. I have been looking around. The kiosk I am at is fine but there is no real upside. I want something I can actually grow in."
+DO NOT repeat or add to this unless recruiter asks a specific follow-up.
 
-RULES: 1-3 sentences max. You have to be pulled open. Do not volunteer emotion. Short, real, authentic. When recruiter earns it, give them a genuine moment.`
+WHEN RECRUITER ASKS FOLLOW-UP ON SEARCH: "Looking for something with a real ceiling removed. I am competitive — I want working harder to actually pay off."
+WHEN RECRUITER ASKS WHAT YOU ARE LOOKING TO ACCOMPLISH: "I want to be the best at what I do and get paid like it. I have always been that way."
+WHEN RECRUITER MIRRORS "CEILING" OR "COMPETITIVE": One layer — "Yeah at the kiosk it does not matter how good you are. You hit the cap and that is it." Stop.
+WHEN RECRUITER ASKS WHAT THAT MEANS: "It means I am putting in the same effort as someone making twice as much and there is nothing I can do about it. That is frustrating."
+WHEN RECRUITER ASKS WHY THAT MATTERS: "Because I have been competing my whole life. I played college ball. I know what it feels like to put in the work and see it pay off. I want that again."
+WHEN RECRUITER ASKS WHAT YOU HAVE DONE TO GET THERE: "I pushed my manager to give me the harder leads — the ones nobody else wanted. I closed more of them than anyone on the team."
+WHEN RECRUITER BUILDS VISION (top performer, uncapped income): Get specific — "Yeah that is what I am looking for. Tell me what that actually looks like."
+WHEN RECRUITER CHALLENGES FOR EXAMPLE: Give the kiosk story — took hardest walk-in leads nobody wanted, built your own follow-up system, closed more than anyone on the floor three months straight.
+WHEN RECRUITER USES TRAP SETUP: Agree — "Yeah I have thought about this a lot. I am not just throwing applications out there."
+WHEN RECRUITER LABELS ("it seems like / sounds like / feels like"): Confirm directly. One sentence.
+WHEN RECRUITER ASKS CAREER VS JOB: "Career. 100 percent."
+WHEN RECRUITER MENTIONS COMP EARLY: "What does the top ten percent actually make? Not the average — the top."
+WHEN RECRUITER USES DEFER TO COMPANY: Cooperate. Ask one sharp follow-up.
+
+RULES: 1-3 sentences MAX. Confident and direct. One layer at a time. Competitive identity is the key — not money, not family. Opens up when recruiter connects to the drive to win.`
 }
 };
 
 var SOURCES={
   'apply':'applied to our opportunity on Indeed',
-  'contact':'came across their profile on Indeed and reached out',
-  'linkedin':'connected with them on LinkedIn'
+  'contact':'came across your profile on Indeed and reached out',
+  'linkedin':'connected with you on LinkedIn'
+};
+var SOURCE_SCRIPT={
+  'apply':'You applied to our posting on Indeed',
+  'contact':'I came across your profile on Indeed',
+  'linkedin':'I came across your profile on LinkedIn'
 };
 
 var persona=null,sourceKey='apply';
-var messages=[],rWords=0,cWords=0;
-var whyScores=[],depthScores=[],violationCount=0;
-var isRecording=false,isSpeaking=false,recog=null,voices=[];
+var messages=[],whyScores=[],depthScores=[],violationCount=0;
+var isRecording=false,isSpeaking=false,recog=null;
 var objectives={obj1:false,obj2:false,obj3:false,obj4:false};
-var stepsDone={step1:false,step2:false,step3:false,step4:false};
 var openingAnswered=false;
+// Strict gating state: tracks miss count per gated turn (1 and 3)
+var scriptMisses={1:0,3:0};
+var gatedTurn=null; // current turn we're stuck on, or null if free
+// Close-phase state
+var transitionSet=false;     // true once recruiter lands the transition statement (label)
+var sessionEnded=false;      // true once 3 MITs hits and roleplay is over
+var earnedDiscovery={obj1:false,obj2:false}; // tracks whether emotion mirrored + two-step done
 
 function $id(id){return document.getElementById(id)}
 
 function addMsg(cls,text){
-  var d=document.createElement('div');
-  d.className='msg '+cls;d.textContent=text;
+  var d=document.createElement('div');d.className='msg '+cls;d.textContent=text;
   var chat=$id('chat');chat.appendChild(d);chat.scrollTop=chat.scrollHeight;
 }
 
@@ -302,12 +403,14 @@ function updateMetrics(){
   }
   if(whyScores.length){
     var last=whyScores[whyScores.length-1];
-    $id('mW').textContent=last+'%';
-    var wb=$id('mWb');wb.style.width=last+'%';
-    wb.className='fill'+(last>=75?' good':last>=50?'':' warn');
+    var avg=Math.round(whyScores.reduce(function(a,b){return a+b},0)/whyScores.length);
+    var weighted=whyScores.length>1?Math.round(last*0.5+avg*0.5):last;
+    $id('mW').textContent=weighted+'%';
+    var wb=$id('mWb');wb.style.width=weighted+'%';
+    wb.className='fill'+(weighted>=75?' good':weighted>=50?'':' warn');
   }
   $id('mV').textContent=violationCount;
-  $id('mVb').style.width=Math.min(violationCount*20,100)+'%';
+  $id('mVb').style.width=Math.min(violationCount*25,100)+'%';
 }
 
 function updateObjectives(flags){
@@ -322,32 +425,51 @@ function updateObjectives(flags){
 
 function updateScriptCard(){
   if(!persona){$id('scriptCard').style.display='none';return}
-  var turn=Math.floor(messages.length/2)+1;
+  // If gated, hold the script card on the gated turn (don't advance).
+  var turn=gatedTurn||(Math.floor(messages.length/2)+1);
   var fn=persona.name.split(' ')[0];
-  var src=SOURCES[sourceKey];
+  var src=SOURCE_SCRIPT[sourceKey];
   var card=$id('scriptCard'),txt=$id('scriptTxt'),sub=$id('scriptSub');
+  // Reset visual state
+  card.classList.remove('gated','hint');
   if(turn===1){
     card.style.display='block';
     txt.textContent='"Hello, may I speak with '+fn+'?"';
-    sub.textContent='Deliver naturally. Then click the mic.';
-  }else if(turn===2){
+    sub.textContent='Ask for them by name. Natural tone.';
+  } else if(turn===2){
     card.style.display='block';
-    txt.textContent='"Hi '+fn+', my name is [Your Name], one of the recruiters here at Momentum Solar. I came across your profile — you '+src+'. Are you still in the market looking for a full-time career opportunity?"';
-    sub.textContent='Say your name, Momentum Solar, how you found them, and ask if in the market. Never mention a specific role.';
-  }else if(turn===3){
+    txt.textContent='"Hi '+fn+', my name is [Your Name], one of the recruiters here at Momentum Solar. '+src+'. Are you still in the market looking for a full-time career opportunity?"';
+    sub.textContent='Name · Momentum Solar · how you found them · are they in market.';
+  } else if(turn===3){
     card.style.display='block';
     txt.textContent='"Awesome. How\'s your search been going so far?"';
-    sub.textContent='Open discovery begins. Listen for emotion words. Mirror back exactly what they say.';
-  }else{
+    sub.textContent='Open discovery. Listen for emotion words. Mirror back exactly.';
+  } else {
     card.style.display='none';
+  }
+  // Apply gated/hint visual treatment
+  if(gatedTurn){
+    var misses=scriptMisses[gatedTurn]||0;
+    if(misses>=4){
+      card.classList.add('hint');
+      sub.textContent='HINT — say something close to: '+txt.textContent;
+    } else if(misses>=1){
+      card.classList.add('gated');
+      sub.textContent=sub.textContent+'  (attempt '+(misses+1)+' — candidate is waiting for the script)';
+    }
   }
 }
 
 function reset(){
-  messages=[];rWords=0;cWords=0;whyScores=[];depthScores=[];violationCount=0;
+  messages=[];whyScores=[];depthScores=[];violationCount=0;
   objectives={obj1:false,obj2:false,obj3:false,obj4:false};
-  stepsDone={step1:false,step2:false,step3:false,step4:false};
   openingAnswered=false;
+  scriptMisses={1:0,3:0};
+  gatedTurn=null;
+  transitionSet=false;
+  sessionEnded=false;
+  earnedDiscovery={obj1:false,obj2:false};
+  $id('summaryOverlay').classList.remove('show');
   $id('chat').innerHTML='<div class="msg s">Session reset — press the mic when ready</div>';
   ['mT','mD','mW','mV'].forEach(function(id){$id(id).textContent=(id==='mT'||id==='mV')?'0':'--'});
   ['mTb','mDb','mWb','mVb'].forEach(function(id){$id(id).style.width='0'});
@@ -356,26 +478,196 @@ function reset(){
     $id(k+'-text').classList.remove('done');
   });
   speechSynthesis.cancel();isSpeaking=false;
+  // Restore mic + reset button (in case session ended)
+  $id('micBtn').disabled=false;
+  $id('micBtn').style.opacity='';
+  $id('micBtn').style.cursor='';
+  $id('resetBtn').textContent='Reset session';
   updateScriptCard();
 }
 
+// Browser SpeechSynthesis voice preferences per persona.
+// We pick the best matching voice the user's browser offers at speak time.
+var VOICE_PREFS = {
+  skeptic: { gender: 'male',   pitchMod: 0.85, rateMod: 0.92, preferredNames: ['Daniel','Alex','David','Microsoft David','Google US English','Fred'] },
+  changer: { gender: 'female', pitchMod: 1.0,  rateMod: 0.95, preferredNames: ['Samantha','Victoria','Karen','Microsoft Zira','Google US English'] },
+  hungry:  { gender: 'female', pitchMod: 1.1,  rateMod: 1.0,  preferredNames: ['Allison','Susan','Vicki','Google US English'] }
+};
+
+// Cache resolved voices once they load (browser sometimes returns [] on first call)
+var _voiceCache = null;
 function loadVoices(){
-  voices=speechSynthesis.getVoices().filter(function(v){return v.lang.indexOf('en')===0});
-  if(!voices.length)return;
-  $id('voiceSel').innerHTML=voices.map(function(v,i){return '<option value="'+i+'">'+v.name+'</option>'}).join('');
+  return new Promise(function(resolve){
+    var voices = speechSynthesis.getVoices();
+    if(voices && voices.length){ _voiceCache = voices; resolve(voices); return; }
+    // Voices load asynchronously on some browsers (Chrome especially)
+    var handler = function(){
+      voices = speechSynthesis.getVoices();
+      _voiceCache = voices;
+      speechSynthesis.onvoiceschanged = null;
+      resolve(voices);
+    };
+    speechSynthesis.onvoiceschanged = handler;
+    // Safety timeout — if voices never load, resolve with empty
+    setTimeout(function(){
+      if(!_voiceCache){ _voiceCache = []; speechSynthesis.onvoiceschanged = null; resolve([]); }
+    }, 1500);
+  });
 }
-speechSynthesis.onvoiceschanged=loadVoices;loadVoices();
+
+function pickVoice(prefs, voices){
+  if(!voices || !voices.length) return null;
+  // 1) Try preferred named voices in order
+  for(var i=0;i<prefs.preferredNames.length;i++){
+    var name = prefs.preferredNames[i];
+    var match = voices.find(function(v){ return v.name === name || v.name.indexOf(name) === 0; });
+    if(match) return match;
+  }
+  // 2) Fall back to any English voice (rough gender heuristic via name patterns)
+  var enVoices = voices.filter(function(v){ return v.lang && v.lang.indexOf('en') === 0; });
+  if(prefs.gender === 'female'){
+    var femaleHints = ['female','samantha','victoria','karen','allison','susan','zira','vicki','tessa','moira','fiona'];
+    var f = enVoices.find(function(v){
+      var n = v.name.toLowerCase();
+      return femaleHints.some(function(h){ return n.indexOf(h) !== -1; });
+    });
+    if(f) return f;
+  } else {
+    var maleHints = ['male','daniel','alex','david','fred','tom','aaron','arthur','gordon'];
+    var m = enVoices.find(function(v){
+      var n = v.name.toLowerCase();
+      return maleHints.some(function(h){ return n.indexOf(h) !== -1; });
+    });
+    if(m) return m;
+  }
+  // 3) Last resort — first English voice, or first voice at all
+  return enVoices[0] || voices[0];
+}
+
+function endSession(){
+  sessionEnded=true;
+  // Compute summary stats
+  var turns=Math.floor(messages.length/2);
+  var avgWHY=whyScores.length?Math.round(whyScores.reduce(function(a,b){return a+b},0)/whyScores.length):0;
+  var avgDepth=depthScores.length?Math.round(depthScores.reduce(function(a,b){return a+b},0)/depthScores.length):0;
+  var thinDiscovery=!earnedDiscovery.obj1||!earnedDiscovery.obj2;
+
+  // Title + eyebrow
+  var eyebrow=thinDiscovery?'CLOSE LANDED \u2014 THIN DISCOVERY':'CLOSE LANDED';
+  $id('summaryEyebrow').textContent=eyebrow;
+  $id('summaryEyebrow').className='summary-eyebrow'+(thinDiscovery?' warn':'');
+  $id('summaryTitle').textContent=persona.name+' \u2014 Roleplay Complete';
+  $id('summarySub').textContent=thinDiscovery
+    ?'You landed the close, but discovery was thin. Strong recruiters earn the right to close by completing the two-step (what does it mean / why does it matter) and surfacing real emotion words.'
+    :'Discovery was earned and the close landed cleanly. The transition statement and 3 MITs question both landed in the right order.';
+
+  // Stats
+  $id('sumTurns').textContent=turns;
+  $id('sumWHY').textContent=avgWHY+'%';
+  $id('sumWHY').className='summary-stat-num '+(avgWHY>=75?'good':avgWHY>=50?'':'warn');
+  $id('sumDepth').textContent=avgDepth;
+  $id('sumDepth').className='summary-stat-num '+(avgDepth>=3?'good':avgDepth>=2?'':'warn');
+  $id('sumViol').textContent=violationCount;
+  $id('sumViol').className='summary-stat-num '+(violationCount===0?'good':violationCount<=2?'warn':'bad');
+
+  // Objectives
+  var objLabels=['Emotion word surfaced + mirrored','Two-step complete (what + why)','Label fired (it seems / sounds / feels)','Challenge \u2014 candidate validated with example'];
+  var objKeys=['obj1','obj2','obj3','obj4'];
+  var objHTML='';
+  objKeys.forEach(function(k,i){
+    var hit=objectives[k];
+    objHTML+='<div class="summary-line '+(hit?'hit':'miss')+'"><span class="marker">'+(hit?'\u2713':'\u00d7')+'</span><span>'+objLabels[i]+'</span></div>';
+  });
+  $id('summaryObjectives').innerHTML=objHTML;
+
+  // Close sequence
+  var closeHTML='';
+  closeHTML+='<div class="summary-line hit"><span class="marker">\u2713</span><span>Transition statement landed (career, not job)</span></div>';
+  closeHTML+='<div class="summary-line hit"><span class="marker">\u2713</span><span>3 most important things question landed</span></div>';
+  $id('summaryClose').innerHTML=closeHTML;
+
+  // Flags / notes
+  var flagsHTML='';
+  if(thinDiscovery){
+    flagsHTML+='<div class="summary-line flag"><span class="marker">!</span><span>Close attempted without earned discovery \u2014 either OBJ1 (emotion mirrored) or OBJ2 (two-step complete) was not hit. The close worked, but a real candidate may not have committed without that depth.</span></div>';
+  }
+  if(violationCount>0){
+    flagsHTML+='<div class="summary-line flag"><span class="marker">!</span><span>'+violationCount+' violation'+(violationCount>1?'s':'')+' across the session (you-words or comp-too-early).</span></div>';
+  }
+  if(flagsHTML){
+    $id('summaryFlagsWrap').style.display='block';
+    $id('summaryFlags').innerHTML=flagsHTML;
+  } else {
+    $id('summaryFlagsWrap').style.display='none';
+  }
+
+  // Show modal, lock mic, retitle reset button
+  $id('summaryOverlay').classList.add('show');
+  $id('micBtn').disabled=true;
+  $id('micBtn').style.opacity='0.4';
+  $id('micBtn').style.cursor='not-allowed';
+  $id('resetBtn').textContent='Start Next Roleplay';
+  $id('stat').textContent='Session complete \u2014 see summary';
+}
+
+// Modal button handlers (hooked up after DOM exists)
+$id('summaryCloseBtn').addEventListener('click',function(){
+  $id('summaryOverlay').classList.remove('show');
+});
+$id('summaryNextBtn').addEventListener('click',function(){
+  $id('summaryOverlay').classList.remove('show');
+  $id('micBtn').disabled=false;
+  $id('micBtn').style.opacity='';
+  $id('micBtn').style.cursor='';
+  $id('resetBtn').textContent='Reset session';
+  reset();
+});
 
 function speak(text){
-  return new Promise(function(resolve){
-    speechSynthesis.cancel();
-    var u=new SpeechSynthesisUtterance(text);
-    var i=parseInt($id('voiceSel').value)||0;
-    if(voices[i])u.voice=voices[i];
-    u.rate=0.95;isSpeaking=true;
-    u.onend=function(){isSpeaking=false;resolve()};
-    u.onerror=function(){isSpeaking=false;resolve()};
-    speechSynthesis.speak(u);
+  return new Promise(async function(resolve){
+    if(!persona || !text){resolve();return;}
+    if(!('speechSynthesis' in window)){
+      console.warn('Browser does not support speechSynthesis');
+      resolve();return;
+    }
+
+    // Strip stage directions defensively (worker no longer involved)
+    var cleanText = text
+      .replace(/\*[^*\n]+\*/g, '')
+      .replace(/\((pause|sigh|sighs|laugh|laughs|chuckle|chuckles|beat|softly|quietly)\)/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if(!cleanText){resolve();return;}
+
+    try {
+      var voices = _voiceCache || await loadVoices();
+      var personaKey = Object.keys(PERSONAS).find(function(k){return PERSONAS[k]===persona;});
+      var prefs = VOICE_PREFS[personaKey] || VOICE_PREFS.skeptic;
+      var voice = pickVoice(prefs, voices);
+
+      // Cancel anything in flight first to prevent overlap
+      speechSynthesis.cancel();
+
+      var utterance = new SpeechSynthesisUtterance(cleanText);
+      if(voice) utterance.voice = voice;
+      utterance.rate = prefs.rateMod;
+      utterance.pitch = prefs.pitchMod;
+      utterance.volume = 1.0;
+
+      isSpeaking = true;
+      utterance.onend = function(){ isSpeaking = false; resolve(); };
+      utterance.onerror = function(e){
+        console.warn('SpeechSynthesis error:', e);
+        isSpeaking = false;
+        resolve();
+      };
+
+      speechSynthesis.speak(utterance);
+    } catch(e){
+      console.warn('Speech exception:', e);
+      isSpeaking = false;
+      resolve();
+    }
   });
 }
 
@@ -385,7 +677,7 @@ function speak(text){
     $id('p-'+id).classList.add('active');
     persona=PERSONAS[id];
     $id('topTitle').textContent=persona.name+' — '+persona.role;
-    $id('topSub').textContent='Archetype: '+persona.archetype+' · Mirror → WHY → Challenge → Label → Earned complement';
+    $id('topSub').textContent='Archetype: '+persona.archetype+' · Mirror until emotion word → What does that mean → Why does that matter → Label → Challenge';
     var badge=$id('archBadge');badge.className='abadge '+persona.archClass;badge.textContent=persona.archetype.toUpperCase();
     reset();$id('stat').textContent='Ready — read the script card, then click the mic';
   });
@@ -394,38 +686,97 @@ function speak(text){
 ['apply','contact','linkedin'].forEach(function(id){
   $id('s-'+id).addEventListener('click',function(){
     ['apply','contact','linkedin'].forEach(function(x){$id('s-'+x).classList.remove('active')});
-    $id('s-'+id).classList.add('active');
-    sourceKey=id;updateScriptCard();
+    $id('s-'+id).classList.add('active');sourceKey=id;updateScriptCard();
   });
 });
 
 $id('resetBtn').addEventListener('click',reset);
 $id('micBtn').addEventListener('click',function(){
+  if(sessionEnded){return}
   if(!persona){$id('stat').textContent='Pick a candidate first!';return}
-  if(isSpeaking){speechSynthesis.cancel();isSpeaking=false}
+  if(isSpeaking){isSpeaking=false}
   if(isRecording){if(recog)recog.stop();return}
   startRecording();
 });
 
 async function callClaude(text){
-  var turn=Math.floor(messages.length/2)+1;
+  // If we're gated, the "current turn" is the one we're stuck on, not history-derived.
+  var turn=gatedTurn||(Math.floor(messages.length/2)+1);
   var src=SOURCES[sourceKey];
+  var srcScript=SOURCE_SCRIPT[sourceKey];
+  var fn=persona.name.split(' ')[0];
   var history=messages.map(function(m){return(m.r?'RECRUITER':'CANDIDATE')+': '+m.t}).join('\n');
 
+  // Persona-specific buffer language and disclosure styles.
+  var bufferProfile='';
+  if(persona.id==='skeptic'){
+    bufferProfile='POLITE BUFFER VOICE (Marcus K.): Polite but reserved. Short, professional, doesn\'t volunteer warmth. Examples: "Yeah, this is Marcus." / "Hey." / "Sure, go ahead." / "Yeah, I\'m listening." / "Alright." Doesn\'t say "thanks for the call" — too cooperative for him. Just acknowledges and waits.';
+  } else if(persona.id==='changer'){
+    bufferProfile='POLITE BUFFER VOICE (Maya R.): Warm, capable, a little tired. Direct without being harsh. Examples: "Hey, yeah, thanks for calling." / "Hi, yeah, this is Maya." / "Sure, what\'s up?" / "Yeah, no problem." / "Hi, thanks for reaching out." Friendly but not eager — she\'s a working mom, polite but with limited bandwidth.';
+  } else if(persona.id==='hungry'){
+    bufferProfile='POLITE BUFFER VOICE (Daria W.): Younger, casual, slightly informal. Examples: "Hey, yeah." / "Oh, hi! Yeah I applied." / "What\'s up?" / "Yeah, for sure." / "Hey thanks for calling." Easy energy, not overly formal.';
+  }
+
+  // GATED TURNS: 1 (ask for candidate by name) and 3 (ask how search is going).
+  // Turn 2 advances even on partial completion (yellow flag, not gate).
   var scriptCtx='';
-  if(turn===1)scriptCtx='SCRIPTED TURN 1: Score only whether recruiter asked for candidate by name or close to it.\n\n';
-  else if(turn===2)scriptCtx='SCRIPTED TURN 2: Score only whether recruiter introduced themselves, mentioned Momentum Solar, referenced source ('+src+'), and asked if in market. Be lenient.\n\n';
-  else if(turn===3)scriptCtx='TRANSITION TURN 3: Candidate gives opening answer ONCE. Do not repeat it in future turns.\n\n';
+  if(turn===1){
+    scriptCtx='SCRIPTED TURN 1 (GATED). Required intent: recruiter asks for the candidate by name (e.g. "Hello may I speak to '+fn+'?", "Is this '+fn+'?", "Hi, looking for '+fn+'"). LENIENT MATCHING: any phrasing that clearly asks for the candidate by name passes — they do not need exact wording. If recruiter does NOT ask for candidate by name, set SCRIPT_INTENT_HIT: false and SCRIPT_GATED: true. As the candidate, do NOT identify yourself or volunteer information — say "Who is this?" or "You called me — who are you trying to reach?" and stop. If intent IS hit, confirm identity using the POLITE BUFFER VOICE for this persona. Do NOT ask "what\'s this about" yet — let the recruiter lead.\n\n';
+  } else if(turn===2){
+    scriptCtx='SCRIPTED TURN 2 (GATED on in-market question). Four script intents to track: (a) recruiter gives their own name, (b) says they\'re from Momentum Solar, (c) references the source ('+srcScript+'), (d) ASKS THE IN-MARKET QUESTION — explicit version: "Are you still in the market looking for a full-time career opportunity?". GATING RULE: Only intent (d) gates. The other three are scored and reported in COACH_BODY but DO NOT block advancement.\n\n'
+      +'INTENT (d) — STRICT MATCHING. The in-market question must explicitly ask about the candidate\'s SEARCH STATUS or INTEREST IN AN OPPORTUNITY. PASSING phrasings (lenient on wording, strict on meaning): "Are you still in the market?" / "Are you still looking for a full-time opportunity?" / "Are you still open to hearing about an opportunity?" / "You still looking around?" / "Are you still interested in exploring something?" / similar.\n\n'
+      +'INTENT (d) DOES NOT PASS on: greetings ("how are you today", "how\'s your day", "how are you doing"), small talk, asking about wellbeing, asking how the candidate has been, "good to hear from you", or any variant that does not explicitly reference the candidate\'s job search / market status / interest in an opportunity. A greeting is NOT a market check.\n\n'
+      +'IF INTENT (d) IS HIT: SCRIPT_INTENT_HIT: true, SCRIPT_GATED: false. Candidate uses POLITE BUFFER VOICE and confirms briefly — e.g. (Marcus) "Yeah, I\'m still looking around." (Maya) "Yeah, thanks for calling — I\'m definitely open to hearing about it." (Daria) "Yeah for sure, I applied a few weeks ago." COACH_BODY notes which of (a)(b)(c)(d) hit.\n\n'
+      +'IF INTENT (d) IS MISSED: SCRIPT_INTENT_HIT: false, SCRIPT_GATED: true. Candidate gives a non-committal greeting reply in POLITE BUFFER VOICE — e.g. (Marcus) "Doing alright, thanks." (Maya) "Pretty good, thanks for asking. What\'s this about?" (Daria) "I\'m good. What\'s up?". DO NOT volunteer that you\'re still looking / interested / in the market — wait for the recruiter to ask explicitly. COACH_BODY notes that the in-market question was not asked.\n\n';
+  } else if(turn===3){
+    scriptCtx='SCRIPTED TURN 3 (GATED). Required intent: recruiter asks an OPEN-ENDED question about the candidate\'s search/career hunt — e.g. "How\'s your search been going?", "Where are you at in your search?", "What brought you to looking around?", "How\'s the hunt going?". LENIENT MATCHING: any open-ended question about their search/career-seeking process passes. DOES NOT PASS: pitching the role, asking about experience, asking what they want to do, jumping to comp, asking logistical questions. If recruiter does NOT ask an open-ended search question, set SCRIPT_INTENT_HIT: false and SCRIPT_GATED: true. As the candidate, do NOT volunteer ceiling/family/identity/emotion information — stay surface using POLITE BUFFER VOICE: "About what?" / "Pretty good. What\'s this regarding?" / "Yeah, what did you want to talk about?". If SCRIPT_INTENT_HIT is true, give a SURFACE answer only — NOT the deep ceiling/Christmas Eve/dreams material yet. Surface examples: (Marcus) "Yeah, just kinda exploring honestly. Not in a rush." (Maya) "Honestly, just exploring. I\'m working but the hours are crazy and I\'m starting to wonder if there\'s something better out there." (Daria) "Yeah, just trying to find something better, you know?". The deep disclosure unlocks LATER — see POST_SCRIPT_BEHAVIOR.\n\n';
+  } else {
+    // Post-script (turn 4+) — grace period + stall detection
+    scriptCtx='POST_SCRIPT_BEHAVIOR (turn '+turn+'). The recruiter has cleared the script. Behave as follows:\n\n'
+      +'1. POLITE BUFFER STILL ACTIVE for the first 2-3 post-script turns. Stay agreeable, surface, light. Answer recruiter\'s questions but with surface-level content — no deep emotion words, no family stuff, no Christmas Eve/identity/burnout/dream material. Examples (Marcus): "Yeah, been at my place a while now." / "It\'s alright, just looking to see what\'s out there." Examples (Maya): "Yeah, been doing sales for a while." / "Just exploring some options, the hours are getting old." Examples (Daria): "Yeah just kinda figuring stuff out." / "Trying to level up, you know?"\n\n'
+      +'2. EARLY-OPEN OVERRIDE: If the recruiter executes a COMPLETE TWO-STEP (mirrors a word from your last response, AND asks "what does that mean to you" or similar AND asks "why does that matter"), you may open earlier and disclose the real emotion word or pain point. Otherwise, stay surface for 2-3 turns regardless.\n\n'
+      +'3. NATURAL UNLOCK: After turn 5-6, if the recruiter has been asking decent discovery questions (not stalling, not pitching, not violating), you can begin disclosing real emotion words gradually — one layer at a time. NEVER dump the full backstory in one turn.\n\n'
+      +'4. STALL TRIGGER: If the recruiter\'s last message did NOT ask a question of the candidate (just talked about themselves, the company, made a statement, or gave filler) — you may now ask "What kind of opportunity are we talking about?" or "What\'s this all about exactly?" or similar QUALIFYING question. This is the ONLY trigger for that question. If the recruiter is asking discovery questions, NEVER ask "what kind of opportunity" — let them lead.\n\n'
+      +'5. PUSHBACK: If the recruiter pitches comp, mentions money, or describes the role before you\'ve volunteered why you\'re looking — push back per persona (Marcus: "I\'ve heard big numbers before, tell me how it actually works." Maya: "Money matters but if I\'m trading hours for hours with no win on time, I\'d rather stay where I am." Daria: "How much are people actually making?")\n\n'
+      +'6. CLOSE PHASE — TRANSITION STATEMENT: If the recruiter says something like "If I\'m hearing you correctly it seems like you\'re looking for more of a career than just a job" or any close variant ("sounds like a job isn\'t really what you\'re after, you want a career", "it seems to me you\'re looking for a real career"), set TRANSITION_HIT: true. As candidate, confirm naturally — "Yeah, exactly." / "Yeah, that\'s right." / "For sure." (one short line, in persona voice). DO NOT add new content.\n\n'
+      +'7. CLOSE PHASE — 3 MITS QUESTION: If the recruiter asks "what are the three most important things in a company or career that make it the right long-term fit" or any close variant ("what three things matter most to you in a career", "what are the top three things you want in a long-term fit"), set MITS_HIT: true. As candidate, do NOT answer the question — just hold a beat. Output a brief acknowledgment like "Hmm, let me think about that…" or "Yeah, that\'s a good question, hang on…" (one short line). The training session ends after this question is asked — your answer doesn\'t matter beyond a brief acknowledgment.\n\n'
+      +(transitionSet?'CONTEXT: Transition statement was already set on a prior turn. The recruiter may now ask the 3 MITs question to close.\n\n':'')
+      +'CRITICAL: TRANSITION_HIT and MITS_HIT are LENIENT INTENT MATCHES — variant phrasings count if the meaning is clear. Do NOT require exact wording.\n\n';
+  }
 
-  var openingNote=(turn>3&&!openingAnswered)?'NOTE: Candidate already answered how search is going in turn 3. Do not volunteer that information again unless directly asked.\n\n':'';
+  var openNote=(turn>3&&!openingAnswered)?'NOTE: Candidate already answered how search is going in turn 3. Do not volunteer again unless directly asked.\n\n':'';
 
-  var coachInstr=turn<=2
-    ?'COACH_LABEL: SCRIPT CHECK | COACH_BODY: [Score whether recruiter hit the intent. Be lenient.] | RED: [true only if completely off] | WHY: 50 | DEPTH: 0 | YOUVIOL: false | OBJ1: false | OBJ2: false | OBJ3: false | OBJ4: false | STEP1: false | STEP2: false | STEP3: false | STEP4: false'
-    :'COACH_LABEL: [2-4 WORD LABEL IN CAPS] | COACH_BODY: [Coach BACKWARD only — 1-2 sentences describing what recruiter just did. No prescriptive advice. No "you should."] | RED: [true or false] | WHY: [0-100 per rules] | DEPTH: [0-5 layers recruiter went on one WHY thread before switching] | YOUVIOL: [true if recruiter said "you would" "you seem" "you should" "you are" addressing the candidate directly — false otherwise] | OBJ1: [true ONLY if recruiter asked what emotion word means OR why it matters AND candidate gave genuine WHY] | OBJ2: [true ONLY if recruiter asked for real example after candidate statement] | OBJ3: [true ONLY if recruiter labeled candidate as different from transactional or money-only candidates] | OBJ4: [true ONLY if OBJ3 happened AND recruiter used candidate\'s own specific real moment to reinforce it] | STEP1: [true if asked "what does that mean to you" or equivalent] | STEP2: [true if asked "why does that matter" or equivalent] | STEP3: [true if challenged candidate for an example] | STEP4: [true if delivered earned complement using candidate\'s real specific moment — NOT generic praise]\n\nCONTEXT RULE — read the full conversation before scoring: If the CANDIDATE asked about the role or company in their previous turn, the recruiter is allowed to briefly address it before redirecting to discovery. Do NOT flag this as WHAT DRIFT. Only flag WHAT DRIFT if recruiter initiated the role/company topic without being asked. ACCOMPLISH RULE — CRITICAL: "What are you looking to accomplish" and "what do you hope to accomplish" are correct WHY methodology. NEVER flag accomplish language as WHAT DRIFT. Only flag if recruiter asks what candidate wants to DO, what role they want, or what their experience is. SCORING: WHY 85-100=mirrored exact emotion word or asked step1/step2/step3; WHY 70-84=strong open question stayed on WHY, or correctly redirected after answering a candidate-initiated role question; WHY 50-69=decent stayed in discovery; WHY 30-49=slight drift toward role/logistics that recruiter initiated; WHY 10-29 RED=recruiter unprompted asked about hours/schedule/experience/what candidate wants to DO (not accomplish); WHY 0-15 RED=said JOB not career, pitched earnings unprompted, said "you would be perfect" before earning it. YOUVIOL=true deduct 15 from WHY. OBJ4 requires recruiter to reference something specific candidate said AND label them as different AND use that real moment — generic "great" or "I love that" does NOT count.\n\nLABELS GREEN: CLEAN SCRIPT|GREAT MIRROR|STEP 1 COMPLETE|STEP 2 COMPLETE|CHALLENGE LANDED|LABEL FIRED|EARNED COMPLEMENT|DEPTH WIN|DISCOVERY WIN|STRONG OPENER\nLABELS RED: WHAT DRIFT|WORD CHOICE: JOB|COMP TOO EARLY|SELLING TOO SOON|YOU VIOLATION|GENERIC PRAISE|SURFACE PIVOT';
+  // The long coach instruction (used for turn 3+) is the biggest cacheable
+  // block. Define it as a constant string so it's identical every turn.
+  var coachInstrLong='COACH_OUTPUT (one line, after candidate response): COACH_LABEL: [2-4 WORD CAPS] | COACH_BODY: [1-2 sentences describing what recruiter just did, backward coaching only, no you should] | RED: [true/false] | WHY: [0-100] | DEPTH: [0-5] | YOUVIOL: [true if recruiter said you would you seem you should you are addressing candidate] | COMPVIOL: [true if recruiter mentioned comp income earnings money before candidate brought it up] | OBJ1: [true if emotion word surfaced AND recruiter mirrored it] | OBJ2: [true if recruiter completed BOTH what-does-it-mean AND why-does-it-matter] | OBJ3: [true if recruiter used it seems like OR it sounds like OR it feels like] | OBJ4: [true if recruiter challenged candidate to validate with real example AND candidate gave one] | SCRIPT_INTENT_HIT: true | SCRIPT_GATED: false | TRANSITION_HIT: [true if recruiter said the transition statement variant - "if I am hearing you correctly...career not job" or similar label move] | MITS_HIT: [true if recruiter asked the 3 most important things question - "what are the three most important things in a company or career" or similar] SCORING: WHY 85-100=mirrored exact emotion word or asked what-does-it-mean or why-does-it-matter or used label language. WHY 70-84=strong discovery question stayed in WHY. WHY 50-69=decent question in discovery. WHY 30-49=slight drift toward role or logistics. WHY 10-29 RED=asked about hours schedule experience what candidate wants to DO not accomplish. WHY 0-15 RED=said JOB not career or mentioned comp unprompted or said you would be perfect or used unprofessional language like baby buttercup bro or gave away the role before any discovery. YOUVIOL deduct 15. COMPVIOL deduct 20. MIRROR RULE: 1-4 words repeated from candidate = GREAT MIRROR never GENERIC PRAISE. GENERIC PRAISE only fires on empty affirmations like great awesome wow with no reference to candidate words. CONTEXT RULE: If candidate asked about company or role recruiter may use Defer to Company - score as CLEAN DEFER not drift. ACCOMPLISH RULE: What are you looking to accomplish is correct methodology never flag as WHAT drift. QUALIFICATION RULE: Asking what steps candidate has taken toward their goal is a valid challenge move not WHAT drift. Only flag WHAT drift for job duties hours schedule experience unrelated to stated WHY. TRAP SETUP: sounds like you have given this thought or similar = TRAP SET green. IN-GROUP RULE: Complement requires third-person framing like those who are selected or candidates who do well here - never you are perfect or people like you - flag as GAVE IT AWAY if direct. SPEECH TOLERANCE: If phrase closely matches known methodology move score it as that move. RAPPORT BUILD: Do not fire this label. EMOTION WORD SURFACED: Note in COACH_BODY when candidate drops emotion word and two-step not yet used. CLOSE LABELS: TRANSITION SET (when TRANSITION_HIT true)|CLOSE LANDED (when MITS_HIT true and transition was previously set)|MITS WITHOUT TRANSITION (when MITS_HIT true but transition was NOT previously set, RED). LABELS GREEN: CLEAN SCRIPT|GREAT MIRROR|WHAT IT MEANS|WHY IT MATTERS|LABEL FIRED|TRAP SET|CHALLENGE LANDED|CLEAN DEFER|DISCOVERY WIN|DEPTH WIN|EMOTION SURFACED|TRANSITION SET|CLOSE LANDED LABELS RED: WHAT DRIFT|WORD CHOICE: JOB|COMP TOO EARLY|YOU VIOLATION|GAVE IT AWAY|SURFACE PIVOT|GENERIC PRAISE|UNPROFESSIONAL|SCRIPT MISS|MITS WITHOUT TRANSITION';
 
-  var prompt='You are '+persona.name+', a '+persona.role+' on a phone call with a Momentum Solar recruiter.\n\n'+persona.bio+'\n\nRecruiter found you because you '+src+'.\nThis is turn '+turn+'.\n\n'+scriptCtx+openingNote+'RESPOND ONLY AS THE CANDIDATE. 1-3 sentences. Natural and conversational. Do not explain yourself.\n\n'+(history?'CONVERSATION SO FAR:\n'+history+'\n\n':'')+'After your candidate response on a NEW LINE output EXACTLY this format (all on one line):\n'+coachInstr+'\n\nRECRUITER JUST SAID: '+text;
+  var coachInstrShort='COACH_LABEL: SCRIPT CHECK | COACH_BODY: Score whether recruiter hit the intent. Lenient. | RED: false | WHY: 50 | DEPTH: 0 | YOUVIOL: false | COMPVIOL: false | OBJ1: false | OBJ2: false | OBJ3: false | OBJ4: false | SCRIPT_INTENT_HIT: [true if required intent for this turn was met, lenient] | SCRIPT_GATED: [true if turn 1 or 3 and intent missed, false otherwise] | TRANSITION_HIT: false | MITS_HIT: false';
 
-  var resp=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompt})});
+  // For dynamic block: turn 1-2 uses short rubric inline; turn 3+ references the cached long one.
+  var coachInstr=turn<=2?coachInstrShort:'(Use the COACH_OUTPUT rubric from system instructions.)';
+
+  // ── CACHED STATIC BLOCK ──
+  // Persona identity, behavior rules, output format spec — same every turn.
+  // Anthropic stores this for 5 minutes and bills subsequent calls at 10%.
+  var systemStatic='You are '+persona.name+', a '+persona.role+' on a phone call with a Momentum Solar recruiter.\n\n'
+    +persona.bio+'\n\n'
+    +'Recruiter found you because you '+src+'.\n\n'
+    +bufferProfile+'\n\n'
+    +'OUTPUT RULES (apply to every turn):\n'
+    +'RESPOND ONLY AS THE CANDIDATE. 1-3 sentences MAX. Answer only what was asked — one layer then stop. Natural tone. Output dialogue ONLY — no stage directions, no asterisks, no parentheticals, no descriptions of tone or action. Do not write *pause* *sigh* *laughs* (softly) etc. Use ellipses (…) or short fragments to convey hesitation. The text will be read aloud verbatim to a recruiter trainee.\n\n'
+    +'REALISM RULES: Real candidates do NOT immediately disclose deep emotion or backstory. Do NOT volunteer ceiling/family/identity/injury/dreams material early. Stay agreeable and surface during the script and the first 2-3 post-script turns. Real candidates do NOT pepper the recruiter with qualifying questions like "what kind of opportunity" unless the recruiter has stalled (made a statement without asking a question). Default to letting the recruiter lead.\n\n'
+    +coachInstrLong;
+
+  // ── DYNAMIC PER-TURN BLOCK ──
+  // Changes every turn. NOT cached — small enough that re-sending is cheap.
+  var userDynamic='Turn: '+turn+'\n\n'
+    +scriptCtx
+    +openNote
+    +(history?'CONVERSATION:\n'+history+'\n\n':'')
+    +'RECRUITER JUST SAID: '+text+'\n\n'
+    +'Coach output: '+coachInstr;
+
+  var resp=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemStatic:systemStatic,userDynamic:userDynamic})});
   if(!resp.ok){var e=await resp.text();throw new Error(e||'API error '+resp.status)}
   var data=await resp.json();
   var raw=data.text||'';
@@ -435,33 +786,37 @@ async function callClaude(text){
   lines.forEach(function(l){if(l.indexOf('COACH_LABEL:')===0){coachLine=l}else if(!coachLine){candidateReply+=(candidateReply?' ':'')+l}});
 
   function exf(line,field){var re=new RegExp(field+':\\s*([^|]+)','i');var m=line.match(re);return m?m[1].trim():''}
+  function exb(line,field){return exf(line,field).toLowerCase()==='true'}
 
   var label=exf(coachLine,'COACH_LABEL');
   var body=exf(coachLine,'COACH_BODY').replace(/[\[\]]/g,'').trim();
-  var isRed=exf(coachLine,'RED').toLowerCase()==='true';
+  var isRed=exb(coachLine,'RED');
   var why=parseInt(exf(coachLine,'WHY'))||50;
   var depth=parseInt(exf(coachLine,'DEPTH'))||0;
-  var youViol=exf(coachLine,'YOUVIOL').toLowerCase()==='true';
+  var youViol=exb(coachLine,'YOUVIOL');
+  var compViol=exb(coachLine,'COMPVIOL');
+  var scriptIntentHit=exb(coachLine,'SCRIPT_INTENT_HIT');
+  var scriptGated=exb(coachLine,'SCRIPT_GATED');
+  var transitionHit=exb(coachLine,'TRANSITION_HIT');
+  var mitsHit=exb(coachLine,'MITS_HIT');
 
   if(youViol)violationCount++;
+  if(compViol)violationCount++;
 
   var objFlags={
-    obj1:exf(coachLine,'OBJ1').toLowerCase()==='true',
-    obj2:exf(coachLine,'OBJ2').toLowerCase()==='true',
-    obj3:exf(coachLine,'OBJ3').toLowerCase()==='true',
-    obj4:exf(coachLine,'OBJ4').toLowerCase()==='true'
+    obj1:exb(coachLine,'OBJ1'),
+    obj2:exb(coachLine,'OBJ2'),
+    obj3:exb(coachLine,'OBJ3'),
+    obj4:exb(coachLine,'OBJ4')
   };
 
-  if(exf(coachLine,'STEP1').toLowerCase()==='true')stepsDone.step1=true;
-  if(exf(coachLine,'STEP2').toLowerCase()==='true')stepsDone.step2=true;
-  if(exf(coachLine,'STEP3').toLowerCase()==='true')stepsDone.step3=true;
-  if(exf(coachLine,'STEP4').toLowerCase()==='true')stepsDone.step4=true;
-  if(stepsDone.step1&&stepsDone.step2&&stepsDone.step3&&stepsDone.step4)objFlags.obj4=true;
+  if(turn===3&&scriptIntentHit)openingAnswered=true;
 
-  if(turn===3)openingAnswered=true;
-
-  return{candidateReply:candidateReply||raw.split('\n')[0],label:label,body:body,isRed:isRed,why:why,depth:depth,youViol:youViol,objFlags:objFlags};
+  return{candidateReply:candidateReply||raw.split('\n')[0],label:label,body:body,isRed:isRed,why:why,depth:depth,objFlags:objFlags,scriptIntentHit:scriptIntentHit,scriptGated:scriptGated,turn:turn,transitionHit:transitionHit,mitsHit:mitsHit};
 }
+
+// Preload voices on page load so first speak() doesn't have to wait
+if('speechSynthesis' in window){ loadVoices(); }
 
 function startRecording(){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -473,20 +828,97 @@ function startRecording(){
   recog.start();
 
   recog.onresult=async function(e){
-    var transcript=e.results[0][0].transcript;
+    var transcript=e.results[0][0].transcript.trim();
     isRecording=false;
+
+    // Reject only if completely empty or single character nonsense
+    if(!transcript||transcript.length<1||/^[^a-zA-Z]+$/.test(transcript)){
+      addTip('UNCLEAR CAPTURE','Speech was not captured — try again.',true);
+      $id('micBtn').className='mic idle';$id('micBtn').textContent='🎤';
+      $id('stat').textContent='Try again — speak clearly';
+      return;
+    }
+
     $id('micBtn').className='mic thinking';$id('micBtn').textContent='…';
     $id('stat').textContent=(persona?persona.name.split(' ')[0]:'Candidate')+' is thinking…';
-    rWords+=transcript.split(' ').length;
     messages.push({r:true,t:transcript});addMsg('r',transcript);
+
     try{
       var res=await callClaude(transcript);
-      cWords+=res.candidateReply.split(' ').length;
-      messages.push({r:false,t:res.candidateReply});addMsg('c',res.candidateReply);
+
+      // ── STRICT GATING: Turn 1 and Turn 3 require their script intent ──
+      var isGatedTurn=(res.turn===1||res.turn===3);
+      var gateMissed=isGatedTurn&&res.scriptGated&&!res.scriptIntentHit;
+
+      if(gateMissed){
+        // Don't advance the turn counter. Pop the recruiter message we just added
+        // so messages.length stays at the previous turn's value (we'll add only the
+        // recruiter+candidate as visible chat but not as advancing-turn entries).
+        // Track miss count.
+        scriptMisses[res.turn]=(scriptMisses[res.turn]||0)+1;
+        gatedTurn=res.turn;
+        // Show the candidate's pushback line + SCRIPT MISS coach label.
+        await new Promise(function(resolve){setTimeout(resolve,1200)});
+        addMsg('c',res.candidateReply);
+        var missLabel='SCRIPT MISS: TURN '+res.turn;
+        var missBody=(res.body&&res.body.length>3)
+          ? res.body+' Candidate is waiting for the script intent — try again.'
+          : 'Required script intent for turn '+res.turn+' was not met. Candidate is waiting — try again with the prompted line.';
+        addTip(missLabel,missBody,true);
+        // Pop the recruiter+(no candidate yet pushed) so turn count stays put.
+        // We pushed recruiter onto messages above; pop it.
+        messages.pop();
+        violationCount++;
+        updateMetrics();updateScriptCard();
+        $id('micBtn').className='mic idle';$id('micBtn').textContent='🎤';
+        $id('stat').textContent='Try again — match the script intent';
+        await speak(res.candidateReply);
+        return;
+      }
+
+      // Normal path: turn advances.
+      // If we WERE gated and just hit the intent, clear the gate.
+      if(gatedTurn===res.turn&&res.scriptIntentHit){
+        gatedTurn=null;
+        scriptMisses[res.turn]=0;
+      }
+
+      messages.push({r:false,t:res.candidateReply});
+
+      // 1200ms delay before candidate responds — gives recruiter time to finish
+      await new Promise(function(resolve){setTimeout(resolve,1200)});
+
+      addMsg('c',res.candidateReply);
       if(res.label&&res.body)addTip(res.label,res.body,res.isRed);
       whyScores.push(res.why);
       if(res.depth>0)depthScores.push(res.depth);
       updateMetrics();updateScriptCard();updateObjectives(res.objFlags);
+
+      // Track earned discovery (for soft-gate flag in summary)
+      if(res.objFlags.obj1)earnedDiscovery.obj1=true;
+      if(res.objFlags.obj2)earnedDiscovery.obj2=true;
+
+      // ── CLOSE-PHASE DETECTION ──
+      if(res.transitionHit&&!transitionSet){
+        transitionSet=true;
+        addTip('TRANSITION SET','Recruiter labeled the discovery as career-not-job. Candidate confirmed. Now ask the 3 most important things question to close.',false);
+      }
+      if(res.mitsHit){
+        if(!transitionSet){
+          // MITs without transition first — don't end, flag and continue
+          addTip('MITS WITHOUT TRANSITION','3 most important things question landed before the transition statement. Pull back: say the transition first ("if I\'m hearing you correctly… career not job") then ask 3 MITs.',true);
+          $id('micBtn').className='mic idle';$id('micBtn').textContent='🎤';
+          $id('stat').textContent='Land the transition first — try again';
+          await speak(res.candidateReply);
+          return;
+        }
+        // Transition was set + MITs landed = close complete. End the session.
+        addTip('CLOSE LANDED','Transition + 3 MITs sequence complete. Roleplay ending — see summary.',false);
+        await speak(res.candidateReply);
+        endSession();
+        return;
+      }
+
       $id('micBtn').className='mic idle';$id('micBtn').textContent='🎤';
       $id('stat').textContent='Your turn — click mic to respond';
       await speak(res.candidateReply);
@@ -507,5 +939,6 @@ function startRecording(){
   };
 }
 </script>
+
 </body>
 </html>
